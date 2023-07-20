@@ -1,0 +1,47 @@
+import settingsSvg from "../assets/icons/settings.svg";
+
+type Props = {
+  title: string;
+  icon: string;
+  action: string;
+  process1: string;
+  process2: string;
+  selected?: boolean;
+};
+
+const Action = ({
+  title,
+  icon,
+  action,
+  process1,
+  process2,
+  selected = false,
+}: Props) => {
+  return (
+    <div className="bg-tudorsGray pt-3 px-3 pb-1 flex flex-col w-[273px] h-[91px] rounded-lg justify-between">
+      <div className="flex items-center justify-between">
+        <h4
+          className={`${selected ? "font-bold" : null} text-[14px]/[16.94px]`}
+        >
+          {title}
+        </h4>
+        <img
+          className="w-[14px] h-[14px]"
+          src={settingsSvg}
+          alt="settingsSvg"
+        />
+      </div>
+      <div className="flex items-center justify-between">
+        <div className="flex justify-center items-center">
+          <img className="w-5 h-5 p-1 pl-0" src={icon} alt={icon} />
+          <p className="text-[10px]/[12.1px]">{action}</p>
+        </div>
+        <p className="text-xs">
+          {process1} / <span className="text-[#ED0909]">{process2}</span>
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default Action;
