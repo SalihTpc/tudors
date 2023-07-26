@@ -1,11 +1,11 @@
-import ConditionSelect from "./ConditionSelect";
-import dateSvg from "../assets/icons/date.svg";
-import timeSvg from "../assets/icons/time.svg";
-import saveSvg from "../assets/icons/save.svg";
-import checkSvg from "../assets/icons/check.svg";
-import { useState, useEffect } from "react";
-import DateSelectorModal from "./DateSelectorModal";
 import dayjs from "dayjs";
+import { useState } from "react";
+import checkSvg from "../assets/icons/check.svg";
+import dateSvg from "../assets/icons/date.svg";
+import saveSvg from "../assets/icons/save.svg";
+import timeSvg from "../assets/icons/time.svg";
+import ConditionSelect from "./ConditionSelect";
+import DateSelectorModal from "./DateSelectorModal";
 import TimeSelector from "./TimeSelector";
 
 const Conditions = () => {
@@ -30,12 +30,8 @@ const Conditions = () => {
     setShowTimeModal(false);
   };
 
-  useEffect(() => {
-    console.log(selectedDate);
-  }, [selectedDate]);
-
   return (
-    <div className="my-4 mx-48">
+    <div className="my-4 mx-48 font-inter">
       <div>
         <div>
           <h2 className="text-xl mb-3">Şartlar</h2>

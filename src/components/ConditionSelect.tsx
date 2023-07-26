@@ -23,7 +23,7 @@ const ConditionSelect = ({ defOption, options }: Props) => {
   }, []);
 
   return (
-    <div className="relative inline-block bg-tudorsGray">
+    <div className="relative inline-block bg-tudorsGray font-inter">
       <div
         className="pl-6 pr-3 rounded cursor-pointer flex items-center justify-between w-[273px] h-[35px]"
         onClick={toggleDropdown}

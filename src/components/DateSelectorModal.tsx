@@ -11,7 +11,7 @@ const DateSelectorModal: React.FC<DateSelectorModalProps> = ({
   handleDateChange,
 }) => {
   return (
-    <div className="absolute -top-7 -left-6 rounded-md">
+    <div className="absolute -top-7 -left-6 rounded-md font-inter">
       <DatePicker
         value={dayjs(selectedDate)}
         onChange={(e) => handleDateChange(e)}

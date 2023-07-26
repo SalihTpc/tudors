@@ -11,7 +11,7 @@ const TimeSelector: React.FC<TimeSelectorProps> = ({
   handleDateChange,
 }) => {
   return (
-    <div className="absolute -top-7 left-32 rounded-md w-full">
+    <div className="absolute -top-7 left-32 rounded-md w-full font-inter">
       <TimePicker
         showNow={false}
         format="HH:mm"
