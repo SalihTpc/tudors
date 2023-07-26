@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import settingsSvg from "../assets/icons/settings.svg";
 
 type Props = {
@@ -7,6 +8,7 @@ type Props = {
   process1: string;
   process2: string;
   selected?: boolean;
+  toUrl: string;
 };
 
 const Action = ({
@@ -16,20 +18,23 @@ const Action = ({
   process1,
   process2,
   selected = false,
+  toUrl,
 }: Props) => {
   return (
-    <div className="bg-tudorsGray pt-3 px-3 pb-1 flex flex-col w-[273px] h-[91px] rounded-lg justify-between">
+    <div className="bg-tudorsGray pt-3 px-3 pb-1 flex flex-col w-[273px] h-[91px] rounded-lg justify-between font-inter">
       <div className="flex items-center justify-between">
         <h4
           className={`${selected ? "font-bold" : null} text-[14px]/[16.94px]`}
         >
           {title}
         </h4>
-        <img
-          className="w-[14px] h-[14px]"
-          src={settingsSvg}
-          alt="settingsSvg"
-        />
+        <Link to={toUrl}>
+          <img
+            className="w-[14px] h-[14px]"
+            src={settingsSvg}
+            alt="settingsSvg"
+          />
+        </Link>
       </div>
       <div className="flex items-center justify-between">
         <div className="flex justify-center items-center">
