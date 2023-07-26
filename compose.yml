@@ -1,0 +1,11 @@
+services:
+  web:
+    container_name: tudors_entegrator
+    restart: unless-stopped
+    build: .
+    networks:
+      - web
+
+networks:
+  web:
+    external: true
