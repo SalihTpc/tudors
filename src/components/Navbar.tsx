@@ -1,11 +1,13 @@
 import settingsSvg from "../assets/icons/setting.svg";
 import logoutSvg from "../assets/icons/logout.svg";
 import userSvg from "../assets/icons/user.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const logoutHandler = () => {
     console.log("first");
+    navigate("/login");
   };
   return (
     <div className="h-[75px] bg-tudorsBlue -mt-0.5 px-32 flex justify-between items-center font-inter">

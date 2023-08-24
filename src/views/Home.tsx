@@ -3,10 +3,11 @@ import { Suspense, lazy } from "react";
 import { Route, Routes } from "react-router-dom";
 import Menu from "../components/Menu";
 import Navbar from "../components/Navbar";
-import DashboardIndex from "./Dashboard/Index";
+
+const DashboardIndex = lazy(() => import("./Dashboard/Index"));
+const LogsIndex = lazy(() => import("./Logs/Index"));
 
 const Home = () => {
-  const OrderTransfer = lazy(() => import("./Dashboard/OrderTransfer"));
   return (
     <>
       <Navbar />
@@ -22,7 +23,7 @@ const Home = () => {
       >
         <Routes>
           <Route path="dashboard/*" element={<DashboardIndex />} />
-          <Route path="ordertransfer" element={<OrderTransfer />} />
+          <Route path="logs/*" element={<LogsIndex />} />
         </Routes>
       </Suspense>
     </>

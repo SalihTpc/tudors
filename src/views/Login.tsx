@@ -3,17 +3,17 @@ import lockSvg from "../assets/icons/lock.svg";
 import userSvg from "../assets/icons/loginUser.svg";
 import topSvg from "../assets/icons/loginTopLeft.svg";
 import "./Login.css";
-import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../store/hooks";
+// import { useNavigate } from "react-router-dom";
+// import { useAppDispatch } from "../store/hooks";
 
 const Login = () => {
   const onFinish = (values: any) => {
     console.log("Received values of form: ", values);
   };
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
+  // const navigate = useNavigate();
+  // const dispatch = useAppDispatch();
   return (
-    <div className="relative">
+    <div className="relative overflow-hidden">
       <img
         className="absolute w-[864px] h-[721.5px] top-[-15px] right-[-45px]"
         src={topSvg}

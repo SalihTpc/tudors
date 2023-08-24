@@ -6,21 +6,9 @@ const DashBoard = () => {
   return (
     <div>
       <div className="flex items-center justify-center w-full my-10 [&>*]:mr-4">
-        <Services
-          bgColor="#EDAB00"
-          responseTime={15}
-          service="Ticimax Performans"
-        />
-        <Services
-          bgColor="#32B83F"
-          responseTime={9}
-          service="Kargoist Performans"
-        />
-        <Services
-          bgColor="#32B83F"
-          responseTime={5}
-          service="Nebim Performans"
-        />
+        <Services responseTime={15} service="Ticimax Performans" />
+        <Services responseTime={9} service="Kargoist Performans" />
+        <Services responseTime={5} service="Nebim Performans" />
       </div>
       <div className="my-10">
         <div className="flex items-center justify-center w-full  [&>*]:mr-4">
