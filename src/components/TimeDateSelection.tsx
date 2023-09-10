@@ -5,9 +5,19 @@ import timeSvg from "../assets/icons/time.svg";
 import DateSelectorModal from "./DateSelectorModal";
 import TimeSelector from "./TimeSelector";
 
-const TimeDateSelection = () => {
-  const [selectedDate, setSelectedDate] = useState(dayjs().toISOString());
-  const [selectedTime, setSelectedTime] = useState(dayjs("00:00", "HH:mm"));
+type Props = {
+  selectedDate: any;
+  setSelectedDate: Function;
+  selectedTime: any;
+  setSelectedTime: Function;
+};
+
+const TimeDateSelection = ({
+  selectedDate,
+  setSelectedDate,
+  selectedTime,
+  setSelectedTime,
+}: Props) => {
   const [showModal, setShowModal] = useState(false);
   const [showTimeModal, setShowTimeModal] = useState(false);
 
@@ -19,11 +29,11 @@ const TimeDateSelection = () => {
   };
 
   const handleTimeChange = (e: any) => {
-    setSelectedTime(dayjs(e.format("HH:mm"), "HH:mm"));
+    setSelectedTime(e.format("HH:mm"));
     setShowTimeModal(false);
   };
   return (
-    <div className="my-8">
+    <div className="my-10">
       <h4 className="text-sm mb-2">
         Aşağıdaki tarih ve saatte sipariş aktarımını otomatik durdur.
       </h4>
