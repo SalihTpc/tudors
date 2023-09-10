@@ -90,7 +90,7 @@ const Login = () => {
               <Form.Item className="text-right">
                 <a
                   className="login-form-forgot font-montserrat text-[16px]/[19.5px] font-medium text-white"
-                  href=""
+                  href="/register"
                 >
                   Forgot password?
                 </a>
