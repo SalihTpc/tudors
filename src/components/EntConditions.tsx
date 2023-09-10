@@ -3,26 +3,46 @@ import TimeDateSelection from "./TimeDateSelection";
 import saveSvg from "../assets/icons/save.svg";
 import checkSvg from "../assets/icons/check.svg";
 import React from "react";
+import { option, orderStatus } from "../lib/generalValues";
+import { Select } from "antd";
 
 const EntConditions = ({ children }: { children: React.ReactNode }) => {
-  const options: string[] = ["Seçenek 1", "Seçenek 2", "Seçenek 3"];
-  const timeOptions: string[] = ["1dk", "3dk", "5dk", "10dk", "15dk", "30dk"];
+  const options: option[] = [
+    { label: "Seçenek 1", value: 1 },
+    { label: "Seçenek 2", value: 2 },
+    { label: "Seçenek 3", value: 3 },
+  ];
+  const timeOptions: option[] = [
+    { label: "1dk", value: 60 },
+    { label: "3dk", value: 180 },
+    { label: "5dk", value: 300 },
+    { label: "10dk", value: 600 },
+    { label: "15dk", value: 900 },
+    { label: "30dk", value: 1800 },
+  ];
+  console.log([{ label: "Sipariş Kaynağı", value: 0 }, ...options]);
   return (
     <div className="my-4 mx-48 font-inter">
       <>
         <div className="flex items-center justify-start mt-8 [&>*]:mr-2">
-          <ConditionSelect defOption={"Sipariş Kaynağı"} options={options} />
-          <ConditionSelect defOption={"Sipariş Durumu"} options={options} />
-          <ConditionSelect defOption={"Kargo Şirketi"} options={options} />
+          <Select className="w-[273px] h-[35px]" />
           <ConditionSelect
-            defOption={"İşlem Zamanlaması"}
-            options={timeOptions}
+            options={[{ label: "Sipariş Kaynağı", value: 0 }, ...options]}
+          />
+          <ConditionSelect
+            options={[{ label: "Sipariş Durumu", value: 0 }, ...orderStatus]}
+          />
+          <ConditionSelect
+            options={[{ label: "Kargo Şirketi", value: 0 }, ...options]}
+          />
+          <ConditionSelect
+            options={[{ label: "İşlem Zamanlaması", value: 0 }, ...timeOptions]}
           />
         </div>
         <p className="font-inter font-normal text-[12px]/[15.6px] my-3">
           Son işlem tarih saati : 19.07.2023 / 13:26
         </p>
-        <TimeDateSelection />
+        {/* <TimeDateSelection /> */}
         <button className=" text-base flex items-center justify-center">
           <img className="w-[40px] h-[40px]" src={saveSvg} alt={saveSvg} />
           <span>Kaydet</span>
