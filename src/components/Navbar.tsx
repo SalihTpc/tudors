@@ -13,7 +13,7 @@ const Navbar = () => {
     <div className="h-[75px] bg-tudorsBlue -mt-0.5 px-32 flex justify-between items-center font-inter">
       <div className="flex">
         <Link
-          to="/"
+          to="/dashboard"
           className="text-right flex flex-col justify-center mr-[22px] cursor-pointer"
         >
           <h1 className="text-white text-base/[19px] -mb-1">tudors.com</h1>
@@ -22,7 +22,7 @@ const Navbar = () => {
           </h2>
         </Link>
         <hr className="border h-[41px] mr-[22px] mt-0.5" />
-        <div className="flex justify-center items-center">
+        <Link to={"/settings"} className="flex justify-center items-center">
           <img
             className="w-[29.17px] h-[29.17px] mr-[22px] cursor-pointer"
             src={settingsSvg}
@@ -31,7 +31,7 @@ const Navbar = () => {
           <p className="font-bold text-[14px]/[16.94px] text-white cursor-pointer">
             Settings
           </p>
-        </div>
+        </Link>
       </div>
       <div className="flex items-center justify-center">
         <button onClick={logoutHandler} className="mr-[22px]">
