@@ -1,10 +1,10 @@
 import { Spin } from "antd";
 import { Suspense, lazy } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Actions from "../../components/Actions";
 
 const OrderTransfer = lazy(() => import("./OrderTransfer"));
-const OrderEntegration = lazy(() => import("./OrderEntegration"));
+// const OrderEntegration = lazy(() => import("./OrderEntegration"));
 const StockEqual = lazy(() => import("./StockEqual"));
 
 const OtherIndex = () => {
@@ -26,8 +26,9 @@ const OtherIndex = () => {
       >
         <Routes>
           <Route path="/ordertransfer" element={<OrderTransfer />} />
-          <Route path="/orderentegration" element={<OrderEntegration />} />
+          {/* <Route path="/orderentegration" element={<OrderEntegration />} /> */}
           <Route path="/stockequal" element={<StockEqual />} />
+          <Route path="*" element={<Navigate to="/dashboard" />} />
         </Routes>
       </Suspense>
     </>
