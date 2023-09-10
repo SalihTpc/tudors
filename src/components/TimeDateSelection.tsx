@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 import { useState } from "react";
 import dateSvg from "../assets/icons/date.svg";
 import timeSvg from "../assets/icons/time.svg";
