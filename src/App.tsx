@@ -1,8 +1,8 @@
-import { Suspense, lazy } from "react";
 import { Spin } from "antd";
+import { Suspense, lazy } from "react";
 import { Route, Routes } from "react-router-dom";
 
-const Main = lazy(() => import("./views/Home"));
+const Home = lazy(() => import("./views/Home"));
 const Login = lazy(() => import("./views/Login"));
 
 function App() {
@@ -19,7 +19,7 @@ function App() {
       >
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route path="/*" element={<Main />} />
+          <Route path="/*" element={<Home />} />
         </Routes>
       </Suspense>
     </>
