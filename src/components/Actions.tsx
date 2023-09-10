@@ -22,7 +22,7 @@ const Actions = () => {
         selected={selected.endsWith("ordertransfer")}
         toUrl="/dashboard/ordertransfer"
       />
-      <Action
+      {/* <Action
         title={"Kargo Entegrasyonu"}
         icon={stopSvg}
         action={"Stopped"}
@@ -30,7 +30,7 @@ const Actions = () => {
         process2={"0"}
         selected={selected.endsWith("orderentegration")}
         toUrl="/dashboard/orderentegration"
-      />
+      /> */}
       <Action
         title={"Stok - Fiyat Eşitleme"}
         icon={stopSvg}
