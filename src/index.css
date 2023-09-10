@@ -15,3 +15,21 @@
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
   box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
 }
+
+.ant-tabs .ant-tabs-tab-active {
+  color: #2148c0;
+  font-weight: 700;
+  transition: ease-in-out 0.4s;
+  transform: scale(105%);
+}
+
+.ant-tabs .ant-tabs-tab + .ant-tabs-tab {
+  margin: 0;
+}
+.ant-select .ant-select-selection-placeholder {
+  color: rgba(0, 0, 0, 1);
+}
+
+.ant-picker .ant-picker-input > input {
+  color: rgba(0, 0, 0, 1);
+}
