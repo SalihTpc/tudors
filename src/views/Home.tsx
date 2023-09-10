@@ -1,11 +1,13 @@
 import { Spin } from "antd";
 import { Suspense, lazy } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Menu from "../components/Menu";
 import Navbar from "../components/Navbar";
 
 const DashboardIndex = lazy(() => import("./Dashboard/Index"));
+const SettingsIndex = lazy(() => import("./Settings/Index"));
 const LogsIndex = lazy(() => import("./Logs/Index"));
+const UsersIndex = lazy(() => import("./Users/Index"));
 
 const Home = () => {
   return (
@@ -22,8 +24,11 @@ const Home = () => {
         }
       >
         <Routes>
+          <Route path="settings/*" element={<SettingsIndex />} />
           <Route path="dashboard/*" element={<DashboardIndex />} />
           <Route path="logs/*" element={<LogsIndex />} />
+          <Route path="users/*" element={<UsersIndex />} />
+          <Route path="*" element={<Navigate to="/dashboard" />} />
         </Routes>
       </Suspense>
     </>
