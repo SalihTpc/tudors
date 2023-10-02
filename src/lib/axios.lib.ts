@@ -1,8 +1,8 @@
-import axios, { AxiosRequestHeaders } from "axios";
-import { baseURL } from "./config";
+// import axios, { AxiosRequestHeaders } from "axios";
+// import { baseURL } from "./config";
 // import { logout } from "../store/features/auth/auth.slice";
-import { store } from "../store/store";
-import Cookies from "js-cookie";
+// import { store } from "../store/store";
+// import Cookies from "js-cookie";
 
 // const headers: any = axios.defaults.headers;
 // headers.common["Content-Type"] = "*/*";

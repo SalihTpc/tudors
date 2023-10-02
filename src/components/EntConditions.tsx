@@ -1,10 +1,9 @@
-import ConditionSelect from "./ConditionSelect";
-import TimeDateSelection from "./TimeDateSelection";
-import saveSvg from "../assets/icons/save.svg";
-import checkSvg from "../assets/icons/check.svg";
-import React from "react";
-import { option, orderStatus } from "../lib/generalValues";
 import { Select } from "antd";
+import React from "react";
+import checkSvg from "../assets/icons/check.svg";
+import saveSvg from "../assets/icons/save.svg";
+import { option, orderStatus } from "../lib/generalValues";
+import ConditionSelect from "./ConditionSelect";
 
 const EntConditions = ({ children }: { children: React.ReactNode }) => {
   const options: option[] = [
