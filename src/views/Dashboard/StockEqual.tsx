@@ -90,8 +90,8 @@ const StockEqual = () => {
           <img src={saveSvg} alt="save" />
           <p className="font-medium text-base font-inter">Kaydet</p>
         </Button>
-        <div className="mt-5">
-          <button className="w-[227px] h-[40px] text-[14px]/[16.94px] font-medium bg-[#7AE3D0] rounded-md mr-4 ">
+        <div className="mt-5 font-inter">
+          <button className="w-[227px] h-[40px] text-[14px]/[16.94px] font-medium bg-[#7AE3D0] rounded-md mr-4">
             Listele
           </button>
           <button className="w-[227px] h-[40px] text-[14px]/[16.94px] font-medium bg-[#7AC9E3] rounded-md">

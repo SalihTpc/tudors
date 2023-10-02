@@ -15,18 +15,18 @@ const Login = () => {
   return (
     <div className="relative overflow-hidden">
       <img
-        className="absolute w-[864px] h-[721.5px] top-[-15px] right-[-45px]"
+        className="absolute w-[864px] h-[721.5px] top-[-15px] right-[-45px] max-md:hidden"
         src={topSvg}
         alt={topSvg}
       />
-      <div className="bg-[#264ECA] w-[724px] h-[724px] absolute top-[344px] left-[-46px] rounded-full flex items-center justify-center z-10">
+      <div className="bg-[#264ECA] w-[724px] h-[724px] absolute top-[344px] left-[-46px] rounded-full flex items-center justify-center z-10 max-md:hidden">
         <div className="bg-[#244BC5] w-[572px] h-[572px] rounded-full flex items-center justify-center z-20">
           <div className="bg-[#274FC7] w-[438px] h-[438px] rounded-full z-30"></div>
         </div>
       </div>
       <div className="flex items-center justify-center bg-tudorsBlue w-screen h-screen">
-        <div className="flex z-50">
-          <div className="flex flex-col items-end justify-start font-inter relative right-20">
+        <div className="flex z-50 max-md:flex-col max-md:items-center">
+          <div className="flex flex-col items-end justify-start font-inter relative right-20 max-md:right-0 max-md:mb-10 max-md:items-center">
             <h1 className="text-[32px]/[38.73px] text-right text-white">
               tudors.com
             </h1>

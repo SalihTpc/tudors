@@ -18,14 +18,14 @@ const Logs = () => {
         <hr className="border border-solid border-black" />
       </div>
       <Form>
-        <div className="flex items-center justify-start mt-8 [&>*]:mr-16 my-4 mx-48 flex-wrap [&>*]:mb-4">
+        <div className="flex items-center justify-start mt-8 [&>*]:mr-16 my-4 mx-48 flex-wrap [&>*]:mb-4 font-inter">
           <Form.Item
             name="orderStatus"
-            className="w-[273px] h-[35px] mx-0 my-3 bg-tudorsGray text-black"
+            className="w-[273px] h-[35px] mx-0 my-3 bg-tudorsGray text-black font-inter"
           >
             <DatePicker
               style={{ color: "rgba(0, 0, 0, 1)" }}
-              className="w-full"
+              className="w-full font-inter"
               bordered={false}
               format="YYYY-MM-DD HH:mm"
               showTime={{ defaultValue: dayjs("00:00:00", "HH:mm") }}
@@ -33,7 +33,10 @@ const Logs = () => {
               suffixIcon={<img src={downSvg} />}
             />
           </Form.Item>
-          <Form.Item name="category" className="w-[273px] h-[35px] my-3">
+          <Form.Item
+            name="category"
+            className="w-[273px] h-[35px] my-3 font-inter"
+          >
             <Select
               bordered={false}
               className="w-[273px] h-[35px] text-sm font-inter rounded-none bg-tudorsGray"

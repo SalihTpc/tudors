@@ -32,7 +32,7 @@ const TimeDateSelection = ({
     setShowTimeModal(false);
   };
   return (
-    <div className="my-10">
+    <div className="my-10 font-inter">
       <h4 className="text-sm mb-2">
         Aşağıdaki tarih ve saatte sipariş aktarımını otomatik durdur.
       </h4>
@@ -42,14 +42,14 @@ const TimeDateSelection = ({
           onClick={() => setShowModal((state) => !state)}
         >
           <img src={dateSvg} alt={dateSvg} />
-          <span className="text-sm">Tarih Seç</span>
+          <span className="text-sm font-inter">Tarih Seç</span>
         </div>
         <div
           className="flex justify-center items-center [&>*]:mr-2 cursor-pointer"
           onClick={() => setShowTimeModal((state) => !state)}
         >
           <img src={timeSvg} alt={timeSvg} />
-          <span className="text-sm">Saat Seç</span>
+          <span className="text-sm font-inter">Saat Seç</span>
         </div>
       </div>
       <div className="w-full relative top-8">

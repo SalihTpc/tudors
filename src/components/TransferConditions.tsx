@@ -81,25 +81,25 @@ const TransferConditions = () => {
           selectedTime={selectedTime}
         />
         <Button
-          htmlType="submit"
+          className="w-fit h-fit mb-3 flex items-center justify-center"
           type="text"
-          className="text-base flex items-center justify-center"
+          htmlType="submit"
         >
-          <img className="w-[40px] h-[40px]" src={saveSvg} alt={saveSvg} />
-          <span>Kaydet</span>
+          <img src={saveSvg} alt="save" />
+          <p className="font-medium text-base font-inter">Kaydet</p>
         </Button>
         <div className="flex items-center justify-start mt-6">
           <img src={checkSvg} alt={checkSvg} />
-          <p className="text-[12px]/[15.6px]">
+          <p className="text-[12px]/[15.6px] font-inter">
             Aktarılmış siparişler listelensin mi? ( Son 7 güne aitler listelenir
             )
           </p>
         </div>
         <div className="mt-5">
-          <button className="w-[227px] h-[40px] text-[14px]/[16.94px] font-medium bg-[#7AE3D0] rounded-md mr-4 ">
+          <button className="w-[227px] h-[40px] text-[14px]/[16.94px] font-medium bg-[#7AE3D0] rounded-md mr-4 font-inter">
             Listele
           </button>
-          <button className="w-[227px] h-[40px] text-[14px]/[16.94px] font-medium bg-[#7AC9E3] rounded-md">
+          <button className="w-[227px] h-[40px] text-[14px]/[16.94px] font-medium bg-[#7AC9E3] rounded-md font-inter">
             Seçilenleri Manual Aktar
           </button>
         </div>
