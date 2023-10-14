@@ -13,7 +13,7 @@ const Logs = () => {
   return (
     <>
       <Actions />
-      <div className="my-2 mx-48 font-inter">
+      <div className="my-2">
         <h2 className="text-xl mb-3">Loglar</h2>
         <hr className="border border-solid border-black" />
       </div>

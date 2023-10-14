@@ -1,11 +1,11 @@
-import Table from "../../components/Table";
+import List from "../../components/List";
 import TransferConditions from "../../components/TransferConditions";
 
 const OrderTransfer = () => {
   return (
     <>
       <TransferConditions />
-      <Table />
+      <List />
     </>
   );
 };

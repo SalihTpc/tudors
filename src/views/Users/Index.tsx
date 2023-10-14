@@ -15,10 +15,12 @@ const SettingsIndex = () => {
         </div>
       }
     >
-      <Routes>
-        <Route path="" element={<Users />} />
-        <Route path="*" element={<Navigate to="/dashboard" />} />
-      </Routes>
+      <div className="my-4 mx-48 font-inter">
+        <Routes>
+          <Route path="" element={<Users />} />
+          <Route path="*" element={<Navigate to="/dashboard" />} />
+        </Routes>
+      </div>
     </Suspense>
   );
 };

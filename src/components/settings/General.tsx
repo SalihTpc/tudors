@@ -5,6 +5,7 @@ import settingsApi from "../../api/settings.api";
 
 const General = () => {
   const [form] = Form.useForm();
+
   const onFinish = (values: any) => {
     console.log("Success:", values);
   };
@@ -22,7 +23,7 @@ const General = () => {
     sqlserverPassword?: string;
     dbname?: string;
     nebimMagazaKodu?: string;
-    nebimKullanıcıAdı?: string;
+    nebimKullaniciAdi?: string;
     nebimPassword?: string;
     nebimOfisKodu?: string;
     nebimUserGroupKodu?: string;
@@ -31,17 +32,31 @@ const General = () => {
 
   const intialAction = async () => {
     try {
-      const response = await settingsApi.generalParams();
-      console.log(response.message);
-      form.setFieldsValue({ webServiceAdress: "456" });
-    } catch (error: any) {
-      console.log(error.message);
+      const response: FieldType[] = await settingsApi.generalParams();
+
+      form.setFieldsValue({
+        webServiceAdress: response[0].webServiceAdress,
+        wbyetkiKodu: response[0].wbyetkiKodu,
+        sqlserverIp: response[0].sqlserverIp,
+        sqlserverPort: response[0].sqlserverUserName,
+        sqlserverUserName: response[0].sqlserverUserName,
+        sqlserverPassword: response[0].sqlserverPassword,
+        dbname: response[0].dbname,
+        nebimMagazaKodu: response[0].nebimMagazaKodu,
+        nebimKullaniciAdi: response[0].nebimKullaniciAdi,
+        nebimPassword: response[0].nebimPassword,
+        nebimOfisKodu: response[0].nebimOfisKodu,
+        nebimUserGroupKodu: response[0].nebimUserGroupKodu,
+        nebimDepoKodu: response[0].nebimDepoKodu,
+      });
+    } catch (error) {
+      throw error;
     }
   };
 
   useEffect(() => {
     intialAction();
-    // form.setFieldsValue({ webServiceAdress: "123" });
+
     return () => {
       form.resetFields();
     };
@@ -122,7 +137,7 @@ const General = () => {
         <div className="w-[285px] h-[35px] bg-[#F0F0F0] flex items-center justify-start pl-5 mr-4 border-[0.2px] border-black">
           <p className="text-sm font-inter">Tudors Nebim Kullanıcı Adı</p>
         </div>
-        <Form.Item<FieldType> name="nebimKullanıcıAdı" className="mb-0">
+        <Form.Item<FieldType> name="nebimKullaniciAdi" className="mb-0">
           <Input className="w-[242px] h-[35px] bg-white flex items-center justify-center border-[0.2px] border-black text-sm font-inter rounded-none" />
         </Form.Item>
       </div>

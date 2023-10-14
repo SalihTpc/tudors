@@ -24,12 +24,14 @@ const OtherIndex = () => {
           </div>
         }
       >
-        <Routes>
-          <Route path="/ordertransfer" element={<OrderTransfer />} />
-          {/* <Route path="/orderentegration" element={<OrderEntegration />} /> */}
-          <Route path="/stockequal" element={<StockEqual />} />
-          <Route path="*" element={<Navigate to="/dashboard" />} />
-        </Routes>
+        <div className="my-4 mx-48 font-inter">
+          <Routes>
+            <Route path="/ordertransfer" element={<OrderTransfer />} />
+            {/* <Route path="/orderentegration" element={<OrderEntegration />} /> */}
+            <Route path="/stockequal" element={<StockEqual />} />
+            <Route path="*" element={<Navigate to="/dashboard" />} />
+          </Routes>
+        </div>
       </Suspense>
     </>
   );

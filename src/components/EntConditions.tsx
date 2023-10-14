@@ -21,7 +21,7 @@ const EntConditions = ({ children }: { children: React.ReactNode }) => {
   ];
   console.log([{ label: "Sipariş Kaynağı", value: 0 }, ...options]);
   return (
-    <div className="my-4 mx-48 font-inter">
+    <div className="my-4">
       <>
         <div className="flex items-center justify-start mt-8 [&>*]:mr-2">
           <Select className="w-[273px] h-[35px]" />

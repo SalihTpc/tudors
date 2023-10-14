@@ -1,15 +1,67 @@
-import { Button, DatePicker, Form } from "antd";
-import downSvg from "../../assets/icons/dropDown.svg";
-import checkSvg from "../../assets/icons/check.svg";
-import saveSvg from "../../assets/icons/save.svg";
+import { Button, DatePicker, Form, Table } from "antd";
+import type { ColumnsType } from "antd/es/table";
 import dayjs from "dayjs";
 import { useState } from "react";
+import checkSvg from "../../assets/icons/check.svg";
+import downSvg from "../../assets/icons/dropDown.svg";
+import saveSvg from "../../assets/icons/save.svg";
 import TimeDateSelection from "../../components/TimeDateSelection";
+import { setStockEqualSave } from "../../store/features/status/status.slice";
+import { useAppDispatch } from "../../store/hooks";
+
+interface DataType {
+  key: React.Key;
+  urunKodu: string;
+  renkKodu: string;
+  barcode: string;
+  envanter: string;
+  satisFiyati: string;
+  indirimliFiyat: string;
+}
+
+const columns: ColumnsType<DataType> = [
+  {
+    title: "Ürün Kodu",
+    dataIndex: "urunKodu",
+  },
+  {
+    title: "Renk Kodu",
+    dataIndex: "renkKodu",
+  },
+  {
+    title: "Barcode",
+    dataIndex: "barcode",
+  },
+  {
+    title: "Envanter",
+    dataIndex: "envanter",
+  },
+  {
+    title: "Satış Fiyatı",
+    dataIndex: "satisFiyati",
+  },
+  {
+    title: "İndirimli Satış Fiyatı",
+    dataIndex: "indirimliFiyat",
+  },
+];
 
 const StockEqual = () => {
   const [form] = Form.useForm();
   const [selectedDate, setSelectedDate] = useState(dayjs().toISOString());
   const [selectedTime, setSelectedTime] = useState(dayjs("00:00", "HH:mm"));
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+  const dispatch = useAppDispatch();
+
+  const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
+    console.log("selectedRowKeys changed: ", newSelectedRowKeys);
+    setSelectedRowKeys(newSelectedRowKeys);
+  };
+
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: onSelectChange,
+  };
 
   const data = [
     {
@@ -30,10 +82,16 @@ const StockEqual = () => {
     },
   ];
 
+  const myData: DataType[] = data.map((data, index) => ({
+    ...data,
+    key: index.toString(),
+  }));
+
   const onFinish = (values: any) => {
-    values.time = selectedTime;
-    values.date = selectedDate;
-    console.log("Success:", values);
+    // values.time = selectedTime;
+    // values.date = selectedDate;
+    console.log("Success:", values.orderStatus.$d.toISOString());
+    dispatch(setStockEqualSave(values.orderStatus.$d.toISOString()));
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -42,7 +100,7 @@ const StockEqual = () => {
 
   return (
     <Form form={form} onFinish={onFinish} onFinishFailed={onFinishFailed}>
-      <div className="mt-8 [&>*]:mr-16 my-4 mx-48 [&>*]:mb-6">
+      <div className="mt-8 [&>*]:mr-16 my-4 [&>*]:mb-6">
         <Form.Item
           name="orderStatus"
           className="w-[273px] h-[35px] mx-0 my-3 bg-tudorsGray text-black"
@@ -51,8 +109,8 @@ const StockEqual = () => {
             style={{ color: "rgba(0, 0, 0, 1)" }}
             className="w-full"
             bordered={false}
-            format="YYYY-MM-DD HH:mm"
-            showTime={{ defaultValue: dayjs("00:00:00", "HH:mm") }}
+            format="DD-MM-YYYY HH:mm"
+            showTime
             placeholder="Tarih - Saat"
             suffixIcon={<img src={downSvg} />}
           />
@@ -98,7 +156,14 @@ const StockEqual = () => {
             Seçilenleri Manual Aktar
           </button>
         </div>
-        <div className="mb-4 mt-8 font-inter">
+
+        <Table
+          rowSelection={rowSelection}
+          columns={columns}
+          dataSource={myData}
+          className="font-inter"
+        />
+        {/* <div className="mb-4 mt-8 font-inter">
           <table className="table-auto font-inter">
             <thead>
               <tr className="bg-tudorsGray">
@@ -147,7 +212,7 @@ const StockEqual = () => {
               ))}
             </tbody>
           </table>
-        </div>
+        </div> */}
       </div>
     </Form>
   );

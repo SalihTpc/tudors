@@ -3,6 +3,14 @@ export interface option {
   value: number;
 }
 
+export interface StateStatus {
+  duration: number;
+  id: number;
+  servisTipi: string;
+  state: boolean;
+  stateDateTime: string;
+}
+
 export const orderStatus: option[] = [
   // { label: "Sipariş Durumu", value: 20 },
   { label: "Ön sipariş", value: 0 },
@@ -23,4 +31,9 @@ export const orderStatus: option[] = [
   { label: "Iptal talebi", value: 15 },
   { label: "Kısmi iade talebi", value: 16 },
   { label: "Kısmi iade yapıldı", value: 17 },
+];
+
+export const aktarimStatus: option[] = [
+  { label: "Aktif", value: 1 },
+  { label: "Pasif", value: 0 },
 ];
