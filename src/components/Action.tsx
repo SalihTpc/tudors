@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
 import settingsSvg from "../assets/icons/settings.svg";
+import { Button } from "antd";
+import { useAppSelector } from "../store/hooks";
 
 type Props = {
-  title: string;
+  id: number;
+
   icon: string;
   action: string;
   process1: string;
@@ -12,7 +15,8 @@ type Props = {
 };
 
 const Action = ({
-  title,
+  id,
+
   icon,
   action,
   process1,
@@ -20,13 +24,21 @@ const Action = ({
   selected = false,
   toUrl,
 }: Props) => {
+  const status = useAppSelector((state) =>
+    id == 1 ? state.status.transferStatus : state.status.stockEqual
+  );
+
+  const play = async () => {
+    console.log(status);
+  };
+
   return (
     <div className="bg-tudorsGray pt-3 px-3 pb-1 flex flex-col w-[273px] h-[91px] rounded-lg justify-between font-inter">
       <div className="flex items-center justify-between">
         <h4
           className={`${selected ? "font-bold" : null} text-[14px]/[16.94px]`}
         >
-          {title}
+          {id == 1 ? "Sipariş Aktarımı" : "Stok - Fiyat Eşitleme"}
         </h4>
         <Link to={toUrl}>
           <img
@@ -37,10 +49,14 @@ const Action = ({
         </Link>
       </div>
       <div className="flex items-center justify-between">
-        <div className="flex justify-center items-center">
+        <Button
+          type="text"
+          className="flex justify-center items-center font-inter ml-0 pl-0"
+          onClick={play}
+        >
           <img className="w-5 h-5 p-1 pl-0" src={icon} alt={icon} />
           <p className="text-[10px]/[12.1px]">{action}</p>
-        </div>
+        </Button>
         <p className="text-xs">
           {process1} / <span className="text-[#ED0909]">{process2}</span>
         </p>
