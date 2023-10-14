@@ -33,3 +33,15 @@
 .ant-picker .ant-picker-input > input {
   color: rgba(0, 0, 0, 1);
 }
+
+.ant-picker .ant-picker-input > input::placeholder {
+  color: rgba(0, 0, 0, 1);
+}
+
+.ant-select .ant-select-clear {
+  margin-right: 30px;
+}
+
+.ant-picker .ant-picker-clear {
+  margin-right: 30px;
+}
