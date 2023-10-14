@@ -1,10 +1,9 @@
-import axios from "axios";
 import { baseURL } from "../lib/config";
-// import { axios as authAxios } from "../lib/axios.lib";
+import { axios as myAxios } from "../lib/axios.lib";
 
 class SettingsApi {
   async generalParams() {
-    const response = await axios.get(baseURL + "general/generalparameters");
+    const response = await myAxios.get(baseURL + "general/generalparameters");
     return response.data;
   }
 }
