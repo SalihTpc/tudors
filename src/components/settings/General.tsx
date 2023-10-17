@@ -2,6 +2,7 @@ import { Button, Form, Input } from "antd";
 import saveSvg from "../../assets/icons/save.svg";
 import { useEffect } from "react";
 import settingsApi from "../../api/settings.api";
+import { Notification, NotificationType } from "../../lib/notification.lib";
 
 const General = () => {
   const [form] = Form.useForm();
@@ -33,7 +34,6 @@ const General = () => {
   const intialAction = async () => {
     try {
       const response: FieldType[] = await settingsApi.generalParams();
-
       form.setFieldsValue({
         webServiceAdress: response[0].webServiceAdress,
         wbyetkiKodu: response[0].wbyetkiKodu,
@@ -49,8 +49,11 @@ const General = () => {
         nebimUserGroupKodu: response[0].nebimUserGroupKodu,
         nebimDepoKodu: response[0].nebimDepoKodu,
       });
-    } catch (error) {
-      throw error;
+    } catch (error: any) {
+      Notification({
+        type: NotificationType.Error,
+        message: error,
+      });
     }
   };
 
