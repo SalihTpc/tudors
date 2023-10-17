@@ -1,11 +1,12 @@
-import { Button, Form, Select } from "antd";
-import generalsApi from "../api/generals.api";
+import { Button, DatePicker, Form, Select, message } from "antd";
+import dateSvg from "../assets/icons/date.svg";
 import downSvg from "../assets/icons/dropDown.svg";
 import saveSvg from "../assets/icons/save.svg";
 import { option, orderStatus } from "../lib/generalValues";
-import { setOrderTransferSave } from "../store/features/status/status.slice";
+import { Notification, NotificationType } from "../lib/notification.lib";
 import { useAppDispatch } from "../store/hooks";
-import TransferStop from "./TransferStop";
+import { setOrderTransferSave } from "../store/features/status/status.slice";
+import generalsApi from "../api/generals.api";
 
 const TransferConditions = () => {
   const [form] = Form.useForm();
@@ -22,7 +23,8 @@ const TransferConditions = () => {
   ];
 
   const onFinish = async (values: any) => {
-    // console.log("Success:", values);
+    // console.log(values);
+    delete values.stopTime;
     dispatch(setOrderTransferSave(values));
     try {
       await generalsApi.saveServiceCriteria({
@@ -30,11 +32,22 @@ const TransferConditions = () => {
         duration: values.orderTimeStatus,
         siparisDurumu: values.orderStatus,
       });
-    } catch (error) {}
+      message.success("Sipariş kriterleri eklendi");
+    } catch (error: any) {
+      Notification({
+        type: NotificationType.Error,
+        message: error,
+      });
+    }
   };
 
   const onFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo);
+    errorInfo.errorFields.forEach((field: any) => {
+      Notification({
+        type: NotificationType.Warning,
+        message: `${field.errors[0]}`,
+      });
+    });
   };
 
   return (
@@ -64,6 +77,27 @@ const TransferConditions = () => {
             />
           </Form.Item>
         </div>
+        <div className="mt-10 font-inter">
+          <h4 className="text-sm">
+            Aşağıdaki tarih ve saatte sipariş aktarımını otomatik durdur.
+          </h4>
+        </div>
+        <Form.Item
+          name="stopTime"
+          className="w-[273px] h-[35px] mx-0 my-3 font-inter bg-tudorsGray text-black"
+        >
+          <DatePicker
+            style={{
+              color: "rgba(0, 0, 0, 1)",
+            }}
+            className="w-full"
+            format="DD-MM-YYYY HH:mm"
+            showTime
+            placeholder="Tarih Saat Seç"
+            bordered={false}
+            suffixIcon={<img src={dateSvg} />}
+          />
+        </Form.Item>
         <Button
           className="w-fit h-fit mb-3 mt-6 flex items-center justify-center"
           type="text"
@@ -73,7 +107,6 @@ const TransferConditions = () => {
           <p className="font-medium text-base font-inter">Kaydet</p>
         </Button>
       </Form>
-      <TransferStop />
     </div>
   );
 };
