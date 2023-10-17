@@ -28,6 +28,14 @@ class GeneralsApi {
     const response = await myAxios.post(baseURL + "general/stopsiparisjob");
     return response.data;
   }
+
+  async siparisAktar(params: {}) {
+    const response = await myAxios.post(
+      baseURL + "general/siparisAktar",
+      params
+    );
+    return response.data;
+  }
 }
 
 export default new GeneralsApi();
