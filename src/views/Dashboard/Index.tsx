@@ -1,8 +1,8 @@
-import { Alert, Spin } from "antd";
+import { Spin } from "antd";
 import { Suspense, lazy, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import { getCriteria } from "../../store/features/status/status.action";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { useAppDispatch } from "../../store/hooks";
 
 const DashBoard = lazy(() => import("./DashBoard"));
 const OtherIndex = lazy(() => import("./OtherIndex"));
