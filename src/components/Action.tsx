@@ -1,9 +1,11 @@
+import { Button, message } from "antd";
 import { Link } from "react-router-dom";
-import settingsSvg from "../assets/icons/settings.svg";
-import { Button } from "antd";
-import { useAppSelector } from "../store/hooks";
 import generalsApi from "../api/generals.api";
+import productApi from "../api/product.api";
+import settingsSvg from "../assets/icons/settings.svg";
 import { StockEqualStatus, TransferStatus } from "../lib/generalValues";
+import { useAppSelector } from "../store/hooks";
+import { Notification, NotificationType } from "../lib/notification.lib";
 
 type Props = {
   id: number;
@@ -38,11 +40,27 @@ const Action = ({
 
   const play = async () => {
     if (state) {
-      try {
-        await generalsApi.stopSiparisJob();
-        setActionCounter((state: number) => state + 1);
-      } catch (error) {
-        console.log(error);
+      if (id == 1) {
+        try {
+          await generalsApi.stopSiparisJob();
+          setActionCounter((state: number) => state + 1);
+          message.success("Sipariş Aktarımı durduruldu");
+        } catch (error: any) {
+          Notification({
+            type: NotificationType.Error,
+            message: error,
+          });
+        }
+      } else {
+        try {
+          await productApi.stopProductJob();
+          message.success("Stok - Fiyat Eşitleme durduruldu");
+        } catch (error: any) {
+          Notification({
+            type: NotificationType.Error,
+            message: error,
+          });
+        }
       }
     } else {
       try {
@@ -52,15 +70,20 @@ const Action = ({
             siparisDurumlari: transferStatus?.order,
           });
           setActionCounter((state: number) => state + 1);
+          message.success("Sipariş Aktarımı başlatıldı.");
         } else {
-          console.log(stockEqualStatus.time);
-          // await generalsApi.startSiparisJob({
-          //   duration: stockEqualStatus.time,
-          // });
-          // setActionCounter((state:number)=>state+1)
+          await productApi.startProductJob({
+            duration: 24,
+            startAt: stockEqualStatus.time,
+          });
+          message.success("Stok - Fiyat Eşitleme başlatıldı.");
+          setActionCounter((state: number) => state + 1);
         }
-      } catch (error) {
-        console.log(error);
+      } catch (error: any) {
+        Notification({
+          type: NotificationType.Error,
+          message: error,
+        });
       }
     }
   };
