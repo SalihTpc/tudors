@@ -1,5 +1,5 @@
 import type { TimeRangePickerProps } from "antd";
-import { Button, DatePicker, Form, Select, Spin, Table } from "antd";
+import { Button, DatePicker, Form, Select, Spin, Table, message } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import dayjs from "dayjs";
 import { useState } from "react";
@@ -7,6 +7,7 @@ import generalsApi from "../api/generals.api";
 import checkSvg from "../assets/icons/check.svg";
 import downSvg from "../assets/icons/dropDown.svg";
 import { aktarimStatus } from "../lib/generalValues";
+import { Notification, NotificationType } from "../lib/notification.lib";
 
 interface DataType {
   key: React.Key;
@@ -55,18 +56,24 @@ const columns: ColumnsType<DataType> = [
 const rangePresets: TimeRangePickerProps["presets"] = [
   { label: "Next 7 Days", value: [dayjs(), dayjs().add(7, "d")] },
   { label: "Next 14 Days", value: [dayjs(), dayjs().add(14, "d")] },
-  { label: "Next 30 Days", value: [dayjs(), dayjs().add(30, "d")] },
-  { label: "Next 90 Days", value: [dayjs(), dayjs().add(90, "d")] },
+  { label: "Prev 30 Days", value: [dayjs().add(-30, "d"), dayjs()] },
+  { label: "Prev 90 Days", value: [dayjs().add(-90, "d"), dayjs()] },
 ];
 
 const List = () => {
   const [form] = Form.useForm();
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [data, setData] = useState<DataType[]>([]);
+  const [selectedSiparisIds, setSelectedSiparisIds] = useState<number[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-    console.log("selectedRowKeys changed: ", newSelectedRowKeys);
+  const onSelectChange = (
+    newSelectedRowKeys: React.Key[],
+    selectedRows: DataType[]
+  ) => {
+    // console.log("selectedRowKeys changed: ", newSelectedRowKeys);
+    const selectedIds = selectedRows.map((row) => row.siparisId);
+    setSelectedSiparisIds(selectedIds);
     setSelectedRowKeys(newSelectedRowKeys);
   };
 
@@ -86,21 +93,42 @@ const List = () => {
     // console.log("Success:", values);
     try {
       const response = await generalsApi.getSiparisler(values);
-
       setData(
         response.map((data: any) => ({
           ...data,
           key: data.id.toString(),
         }))
       );
-    } catch (error) {
-      console.log(error);
+      message.success("Siparişler alındı.");
+    } catch (error: any) {
+      Notification({
+        type: NotificationType.Error,
+        message: error,
+      });
     }
+    form.resetFields();
     setLoading(false);
   };
 
   const onFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo);
+    errorInfo.errorFields.forEach((field: any) => {
+      Notification({
+        type: NotificationType.Warning,
+        message: `${field.errors[0]}`,
+      });
+    });
+  };
+
+  const aktarHandler = async () => {
+    try {
+      await generalsApi.siparisAktar({ siparisId: selectedSiparisIds });
+      message.success("Siparişler Aktarıldı.");
+    } catch (error: any) {
+      Notification({
+        type: NotificationType.Error,
+        message: error,
+      });
+    }
   };
 
   return (
@@ -155,7 +183,10 @@ const List = () => {
           >
             Listele
           </Button>
-          <Button className="w-[227px] h-[40px] text-[14px]/[16.94px] font-medium bg-[#7AC9E3] rounded-md font-inter">
+          <Button
+            onClick={aktarHandler}
+            className="w-[227px] h-[40px] text-[14px]/[16.94px] font-medium bg-[#7AC9E3] rounded-md font-inter"
+          >
             Seçilenleri Manual Aktar
           </Button>
         </div>
