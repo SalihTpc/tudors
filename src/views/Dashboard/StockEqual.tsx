@@ -1,12 +1,14 @@
-import { Button, DatePicker, Form, Table } from "antd";
+import { Button, DatePicker, Form, Table, message } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { useState } from "react";
 import checkSvg from "../../assets/icons/check.svg";
+import dateSvg from "../../assets/icons/date.svg";
 import downSvg from "../../assets/icons/dropDown.svg";
 import saveSvg from "../../assets/icons/save.svg";
-import TransferStop from "../../components/TransferStop";
 import { setStockEqualSave } from "../../store/features/status/status.slice";
 import { useAppDispatch } from "../../store/hooks";
+import { Notification, NotificationType } from "../../lib/notification.lib";
+import generalsApi from "../../api/generals.api";
 
 interface DataType {
   key: React.Key;
@@ -84,13 +86,32 @@ const StockEqual = () => {
     key: index.toString(),
   }));
 
-  const onFinish = (values: any) => {
-    console.log("Success:", values.orderStatus.$d.toISOString());
+  const onFinish = async (values: any) => {
+    // console.log("Success:", values.orderStatus.$d.toISOString());
+    delete values.stopTime;
     dispatch(setStockEqualSave(values.orderStatus.$d.toISOString()));
+    try {
+      await generalsApi.saveServiceCriteria({
+        serviceId: 2,
+        startAt: values.orderStatus.$d.toISOString(),
+      });
+      message.success("Stok - Fiyat kriterleri eklendi.");
+      form.resetFields();
+    } catch (error: any) {
+      Notification({
+        type: NotificationType.Error,
+        message: error,
+      });
+    }
   };
 
   const onFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo);
+    errorInfo.errorFields.forEach((field: any) => {
+      Notification({
+        type: NotificationType.Warning,
+        message: `${field.errors[0]}`,
+      });
+    });
   };
 
   return (
@@ -113,7 +134,27 @@ const StockEqual = () => {
         <p className="text-xs font-inter my-3">
           Son işlem tamamlama tarih saati : 19.07.2023 / 04:16
         </p>
-        <TransferStop />
+        <div className="mt-10 font-inter">
+          <h4 className="text-sm">
+            Aşağıdaki tarih ve saatte sipariş aktarımını otomatik durdur.
+          </h4>
+        </div>
+        <Form.Item
+          name="stopTime"
+          className="w-[273px] h-[35px] mx-0 my-3 font-inter bg-tudorsGray text-black"
+        >
+          <DatePicker
+            style={{
+              color: "rgba(0, 0, 0, 1)",
+            }}
+            className="w-full"
+            format="DD-MM-YYYY HH:mm"
+            showTime
+            placeholder="Tarih Saat Seç"
+            bordered={false}
+            suffixIcon={<img src={dateSvg} />}
+          />
+        </Form.Item>
         <div className="flex items-center justify-start">
           <img src={checkSvg} alt={checkSvg} />
           <p className="font-inter text-xs">
