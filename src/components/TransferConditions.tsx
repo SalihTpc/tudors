@@ -1,17 +1,15 @@
 import { Button, Form, Select } from "antd";
-import dayjs from "dayjs";
-import { useState } from "react";
+import generalsApi from "../api/generals.api";
 import downSvg from "../assets/icons/dropDown.svg";
 import saveSvg from "../assets/icons/save.svg";
 import { option, orderStatus } from "../lib/generalValues";
 import { setOrderTransferSave } from "../store/features/status/status.slice";
 import { useAppDispatch } from "../store/hooks";
-import TimeDateSelection from "./TimeDateSelection";
+import TransferStop from "./TransferStop";
 
 const TransferConditions = () => {
   const [form] = Form.useForm();
-  const [selectedDate, setSelectedDate] = useState(dayjs().toISOString());
-  const [selectedTime, setSelectedTime] = useState(dayjs("00:00", "HH:mm"));
+
   const dispatch = useAppDispatch();
 
   const timeOptions: option[] = [
@@ -23,9 +21,16 @@ const TransferConditions = () => {
     { label: "30dk", value: 30 },
   ];
 
-  const onFinish = (values: any) => {
+  const onFinish = async (values: any) => {
     // console.log("Success:", values);
     dispatch(setOrderTransferSave(values));
+    try {
+      await generalsApi.saveServiceCriteria({
+        serviceId: 1,
+        duration: values.orderTimeStatus,
+        siparisDurumu: values.orderStatus,
+      });
+    } catch (error) {}
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -59,36 +64,16 @@ const TransferConditions = () => {
             />
           </Form.Item>
         </div>
-        <TimeDateSelection
-          setSelectedDate={setSelectedDate}
-          selectedDate={selectedDate}
-          setSelectedTime={setSelectedTime}
-          selectedTime={selectedTime}
-        />
         <Button
-          className="w-fit h-fit mb-3 flex items-center justify-center"
+          className="w-fit h-fit mb-3 mt-6 flex items-center justify-center"
           type="text"
           htmlType="submit"
         >
           <img src={saveSvg} alt="save" />
           <p className="font-medium text-base font-inter">Kaydet</p>
         </Button>
-        {/* <div className="flex items-center justify-start mt-6">
-          <img src={checkSvg} alt={checkSvg} />
-          <p className="text-[12px]/[15.6px] font-inter">
-            Aktarılmış siparişler listelensin mi? ( Son 7 güne aitler listelenir
-            )
-          </p>
-        </div>
-        <div className="mt-5">
-          <button className="w-[227px] h-[40px] text-[14px]/[16.94px] font-medium bg-[#7AE3D0] rounded-md mr-4 font-inter">
-            Listele
-          </button>
-          <button className="w-[227px] h-[40px] text-[14px]/[16.94px] font-medium bg-[#7AC9E3] rounded-md font-inter">
-            Seçilenleri Manual Aktar
-          </button>
-        </div> */}
       </Form>
+      <TransferStop />
     </div>
   );
 };

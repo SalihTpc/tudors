@@ -2,52 +2,83 @@ import { Link } from "react-router-dom";
 import settingsSvg from "../assets/icons/settings.svg";
 import { Button } from "antd";
 import { useAppSelector } from "../store/hooks";
+import generalsApi from "../api/generals.api";
+import { StockEqualStatus, TransferStatus } from "../lib/generalValues";
 
 type Props = {
   id: number;
-
+  state: boolean;
   icon: string;
   action: string;
   process1: string;
   process2: string;
   selected?: boolean;
   toUrl: string;
+  setActionCounter: Function;
 };
 
 const Action = ({
   id,
-
   icon,
   action,
   process1,
   process2,
+  state,
   selected = false,
   toUrl,
+  setActionCounter,
 }: Props) => {
-  const status = useAppSelector((state) =>
-    id == 1 ? state.status.transferStatus : state.status.stockEqual
+  const transferStatus: TransferStatus = useAppSelector(
+    (state) => state.status.transferStatus
+  );
+
+  const stockEqualStatus: StockEqualStatus = useAppSelector(
+    (state) => state.status.stockEqual
   );
 
   const play = async () => {
-    console.log(status);
+    if (state) {
+      try {
+        await generalsApi.stopSiparisJob();
+        setActionCounter((state: number) => state + 1);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      try {
+        if (id == 1) {
+          await generalsApi.startSiparisJob({
+            duration: transferStatus.time,
+            siparisDurumlari: transferStatus?.order,
+          });
+          setActionCounter((state: number) => state + 1);
+        } else {
+          console.log(stockEqualStatus.time);
+          // await generalsApi.startSiparisJob({
+          //   duration: stockEqualStatus.time,
+          // });
+          // setActionCounter((state:number)=>state+1)
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
   return (
     <div className="bg-tudorsGray pt-3 px-3 pb-1 flex flex-col w-[273px] h-[91px] rounded-lg justify-between font-inter">
-      <div className="flex items-center justify-between">
+      <Link to={toUrl} className="flex items-center justify-between">
         <h4
           className={`${selected ? "font-bold" : null} text-[14px]/[16.94px]`}
         >
           {id == 1 ? "Sipariş Aktarımı" : "Stok - Fiyat Eşitleme"}
         </h4>
-        <Link to={toUrl}>
-          <img
-            className="w-[14px] h-[14px]"
-            src={settingsSvg}
-            alt="settingsSvg"
-          />
-        </Link>
-      </div>
+        <img
+          className="w-[14px] h-[14px]"
+          src={settingsSvg}
+          alt="settingsSvg"
+        />
+      </Link>
       <div className="flex items-center justify-between">
         <Button
           type="text"

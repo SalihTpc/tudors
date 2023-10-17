@@ -11,6 +11,15 @@ export interface StateStatus {
   stateDateTime: string;
 }
 
+export interface TransferStatus {
+  order: number;
+  time: number;
+}
+
+export interface StockEqualStatus {
+  time: string;
+}
+
 export const orderStatus: option[] = [
   // { label: "Sipariş Durumu", value: 20 },
   { label: "Ön sipariş", value: 0 },

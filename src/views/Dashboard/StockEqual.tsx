@@ -1,11 +1,10 @@
 import { Button, DatePicker, Form, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import dayjs from "dayjs";
 import { useState } from "react";
 import checkSvg from "../../assets/icons/check.svg";
 import downSvg from "../../assets/icons/dropDown.svg";
 import saveSvg from "../../assets/icons/save.svg";
-import TimeDateSelection from "../../components/TimeDateSelection";
+import TransferStop from "../../components/TransferStop";
 import { setStockEqualSave } from "../../store/features/status/status.slice";
 import { useAppDispatch } from "../../store/hooks";
 
@@ -48,8 +47,6 @@ const columns: ColumnsType<DataType> = [
 
 const StockEqual = () => {
   const [form] = Form.useForm();
-  const [selectedDate, setSelectedDate] = useState(dayjs().toISOString());
-  const [selectedTime, setSelectedTime] = useState(dayjs("00:00", "HH:mm"));
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const dispatch = useAppDispatch();
 
@@ -88,8 +85,6 @@ const StockEqual = () => {
   }));
 
   const onFinish = (values: any) => {
-    // values.time = selectedTime;
-    // values.date = selectedDate;
     console.log("Success:", values.orderStatus.$d.toISOString());
     dispatch(setStockEqualSave(values.orderStatus.$d.toISOString()));
   };
@@ -118,14 +113,7 @@ const StockEqual = () => {
         <p className="text-xs font-inter my-3">
           Son işlem tamamlama tarih saati : 19.07.2023 / 04:16
         </p>
-        <div className="">
-          <TimeDateSelection
-            setSelectedDate={setSelectedDate}
-            selectedDate={selectedDate}
-            setSelectedTime={setSelectedTime}
-            selectedTime={selectedTime}
-          />
-        </div>
+        <TransferStop />
         <div className="flex items-center justify-start">
           <img src={checkSvg} alt={checkSvg} />
           <p className="font-inter text-xs">
@@ -163,56 +151,6 @@ const StockEqual = () => {
           dataSource={myData}
           className="font-inter"
         />
-        {/* <div className="mb-4 mt-8 font-inter">
-          <table className="table-auto font-inter">
-            <thead>
-              <tr className="bg-tudorsGray">
-                <th className="border font-semibold w-[158px] h-[37px] text-[12px]/[15.6px]">
-                  Ürün Kodu
-                </th>
-                <th className="border font-semibold w-[158px] h-[37px] text-[12px]/[15.6px]">
-                  Renk Kodu
-                </th>
-                <th className="border font-semibold w-[158px] h-[37px] text-[12px]/[15.6px]">
-                  Barcode
-                </th>
-                <th className="border font-semibold w-[117px] h-[37px] text-[12px]/[15.6px]">
-                  Envanter
-                </th>
-                <th className="border font-semibold w-[158px] h-[37px] text-[12px]/[15.6px]">
-                  Satış Fiyatı
-                </th>
-                <th className="border font-semibold w-[177px] h-[37px] text-[12px]/[15.6px]">
-                  İndirimli Satış Fiyatı
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.map((row, index) => (
-                <tr key={index} className="text-center">
-                  <td className="border text-[12px]/[15.6px]">
-                    {row.urunKodu}
-                  </td>
-                  <td className="border text-[12px]/[15.6px] h-[37px]">
-                    {row.renkKodu}
-                  </td>
-                  <td className="border text-[12px]/[15.6px] h-[37px]">
-                    {row.barcode}
-                  </td>
-                  <td className="border text-[12px]/[15.6px] h-[37px]">
-                    {row.envanter}
-                  </td>
-                  <td className="border text-[12px]/[15.6px] h-[37px]">
-                    {row.satisFiyati}
-                  </td>
-                  <td className="border text-[12px]/[15.6px] h-[37px]">
-                    {row.indirimliFiyat}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div> */}
       </div>
     </Form>
   );

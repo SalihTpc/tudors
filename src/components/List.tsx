@@ -6,6 +6,7 @@ import { aktarimStatus } from "../lib/generalValues";
 import { useState } from "react";
 import type { TimeRangePickerProps } from "antd";
 import dayjs from "dayjs";
+import generalsApi from "../api/generals.api";
 
 interface DataType {
   key: React.Key;
@@ -93,51 +94,22 @@ const List = () => {
   const rowSelection = {
     selectedRowKeys,
     onChange: onSelectChange,
-    // selections: [
-    //   Table.SELECTION_ALL,
-    //   Table.SELECTION_INVERT,
-    //   Table.SELECTION_NONE,
-    //   {
-    //     key: "odd",
-    //     text: "Select Odd Row",
-    //     onSelect: (changeableRowKeys: any) => {
-    //       let newSelectedRowKeys = [];
-    //       console.log(changeableRowKeys);
-    //       newSelectedRowKeys = changeableRowKeys.filter(
-    //         (_: any, index: number) => {
-    //           if (index % 2 !== 0) {
-    //             return false;
-    //           }
-    //           return true;
-    //         }
-    //       );
-    //       setSelectedRowKeys(newSelectedRowKeys);
-    //     },
-    //   },
-    //   {
-    //     key: "even",
-    //     text: "Select Even Row",
-    //     onSelect: (changeableRowKeys: any) => {
-    //       let newSelectedRowKeys = [];
-    //       newSelectedRowKeys = changeableRowKeys.filter(
-    //         (_: any, index: number) => {
-    //           if (index % 2 !== 0) {
-    //             return true;
-    //           }
-    //           return false;
-    //         }
-    //       );
-    //       setSelectedRowKeys(newSelectedRowKeys);
-    //     },
-    //   },
-    // ],
+    getCheckboxProps: (record: DataType) => ({
+      disabled: record.kgStatu === "Aktarıldı",
+    }),
   };
 
-  const onFinish = (values: any) => {
-    values.bastarih = values.tarih[0].$d.toISOString();
-    values.bittarih = values.tarih[1].$d.toISOString();
+  const onFinish = async (values: any) => {
+    values.basTarih = values.tarih[0].$d.toISOString();
+    values.bitTarih = values.tarih[1].$d.toISOString();
     delete values.tarih;
-    console.log("Success:", values);
+    // console.log("Success:", values);
+    try {
+      const response = await generalsApi.getSiparisler(values);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -164,15 +136,6 @@ const List = () => {
               },
             ]}
           >
-            {/* <DatePicker
-              style={{ color: "rgba(0, 0, 0, 1)" }}
-              className="w-full h-[35px] text-sm font-inter rounded-none bg-tudorsGray"
-              bordered={false}
-              format="YYYY-MM-DD HH:mm"
-              showTime={{ defaultValue: dayjs("00:00:00", "HH:mm") }}
-              placeholder="Başlangış Tarihi"
-              suffixIcon={<img src={downSvg} />}
-            /> */}
             <DatePicker.RangePicker
               className="w-full h-[35px] text-sm font-inter rounded-none bg-tudorsGray"
               showTime={{ format: "HH:mm" }}
@@ -182,20 +145,6 @@ const List = () => {
               presets={rangePresets}
             />
           </Form.Item>
-          {/* <Form.Item
-            name="bittarih"
-            className="w-[273px] h-[35px] my-3 bg-tudorsGray"
-          >
-            <DatePicker
-              style={{ color: "rgba(0, 0, 0, 1)" }}
-              className="w-full text-sm font-inter rounded-none bg-tudorsGray"
-              bordered={false}
-              format="YYYY-MM-DD HH:mm"
-              showTime={{ defaultValue: dayjs("00:00:00", "HH:mm") }}
-              placeholder="Bitiş Tarihi"
-              suffixIcon={<img src={downSvg} />}
-            />
-          </Form.Item> */}
           <Form.Item
             name="state"
             className="w-[273px] h-[35px] my-3"

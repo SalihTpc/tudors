@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   transferStatus: {
-    order: "",
+    order: 0,
     time: 0,
   },
   stockEqual: {
