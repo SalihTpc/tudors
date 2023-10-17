@@ -1,32 +1,36 @@
-import { Button, DatePicker, Form, Select, Table } from "antd";
+import type { TimeRangePickerProps } from "antd";
+import { Button, DatePicker, Form, Select, Spin, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
+import dayjs from "dayjs";
+import { useState } from "react";
+import generalsApi from "../api/generals.api";
 import checkSvg from "../assets/icons/check.svg";
 import downSvg from "../assets/icons/dropDown.svg";
 import { aktarimStatus } from "../lib/generalValues";
-import { useState } from "react";
-import type { TimeRangePickerProps } from "antd";
-import dayjs from "dayjs";
-import generalsApi from "../api/generals.api";
 
 interface DataType {
   key: React.Key;
   siparisKaynagi: string;
-  siparisID: string;
+  siparisId: number;
   siparisTarihi: string;
-  toplamTutar: string;
+  toplamTutar: number;
   siparisDurumu: string;
-  nbStatu: string;
-  kgStatu: string;
+  state: number;
+  id: number;
 }
 
 const columns: ColumnsType<DataType> = [
+  {
+    title: "",
+    dataIndex: "id",
+  },
   {
     title: "Sipariş Kaynağı",
     dataIndex: "siparisKaynagi",
   },
   {
     title: "Sipariş ID",
-    dataIndex: "siparisID",
+    dataIndex: "siparisId",
   },
   {
     title: "Sipariş Tarih-Saati",
@@ -42,12 +46,9 @@ const columns: ColumnsType<DataType> = [
   },
 
   {
-    title: "NB Statü",
-    dataIndex: "nbStatu",
-  },
-  {
-    title: "KG Statü",
-    dataIndex: "kgStatu",
+    title: "Aktarım Durumu",
+    dataIndex: "state",
+    render: (text) => <p>{text == 1 ? "Aktarıldı" : "Aktarılmadı"}</p>,
   },
 ];
 
@@ -61,30 +62,8 @@ const rangePresets: TimeRangePickerProps["presets"] = [
 const List = () => {
   const [form] = Form.useForm();
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-  const data = [
-    {
-      siparisKaynagi: "Trendyol",
-      siparisID: "TRN484654684",
-      siparisTarihi: "19.07.2023 - 18:43",
-      toplamTutar: "699,00₺",
-      siparisDurumu: "Onaylandı",
-      nbStatu: "Beklemede",
-      kgStatu: "Aktarıldı",
-    },
-    {
-      siparisKaynagi: "Ticimax Web",
-      siparisID: "54854884",
-      siparisTarihi: "18.07.2023 - 18:43",
-      toplamTutar: "499,00₺",
-      siparisDurumu: "Onaylandı",
-      nbStatu: "Aktarıldı",
-      kgStatu: "Aktarıldı",
-    },
-  ];
-  const myData: DataType[] = data.map((data, index) => ({
-    ...data,
-    key: index.toString(),
-  }));
+  const [data, setData] = useState<DataType[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
     console.log("selectedRowKeys changed: ", newSelectedRowKeys);
@@ -95,21 +74,29 @@ const List = () => {
     selectedRowKeys,
     onChange: onSelectChange,
     getCheckboxProps: (record: DataType) => ({
-      disabled: record.kgStatu === "Aktarıldı",
+      disabled: record.state === 1,
     }),
   };
 
   const onFinish = async (values: any) => {
+    setLoading(true);
     values.basTarih = values.tarih[0].$d.toISOString();
     values.bitTarih = values.tarih[1].$d.toISOString();
     delete values.tarih;
     // console.log("Success:", values);
     try {
       const response = await generalsApi.getSiparisler(values);
-      console.log(response);
+
+      setData(
+        response.map((data: any) => ({
+          ...data,
+          key: data.id.toString(),
+        }))
+      );
     } catch (error) {
       console.log(error);
     }
+    setLoading(false);
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -173,12 +160,22 @@ const List = () => {
           </Button>
         </div>
       </Form>
-      <Table
-        rowSelection={rowSelection}
-        columns={columns}
-        dataSource={myData}
-        className="font-inter mt-8"
-      />
+      {data.length > 0 ? (
+        loading ? (
+          <div className="flex items-center justify-center min-w-screen min-h-screen">
+            <Spin tip="Loading..." size="large">
+              <div className="p-12 bg-gray-300 rounded-lg" />
+            </Spin>
+          </div>
+        ) : (
+          <Table
+            rowSelection={rowSelection}
+            columns={columns}
+            dataSource={data}
+            className="font-inter mt-8"
+          />
+        )
+      ) : null}
     </>
   );
 };
