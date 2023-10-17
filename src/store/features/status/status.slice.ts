@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { getCriteria } from "./status.action";
 
 const initialState = {
   transferStatus: {
@@ -8,9 +9,10 @@ const initialState = {
   stockEqual: {
     time: "",
   },
+  error: "",
 };
 const statusSlice = createSlice({
-  name: "accounts",
+  name: "status",
   initialState,
   reducers: {
     setOrderTransferSave: (state, action) => {
@@ -21,7 +23,14 @@ const statusSlice = createSlice({
       state.stockEqual.time = action.payload;
     },
   },
-  extraReducers: () => {},
+  extraReducers: (builder) => {
+    builder.addCase(getCriteria.fulfilled, (state, action) => {
+      const { status } = action.payload;
+      state.transferStatus.order = status.transferStatus.siparisDurumu;
+      state.transferStatus.time = status.transferStatus.duration;
+      state.stockEqual.time = status.stockEqual.startAt;
+    });
+  },
 });
 
 export const { setOrderTransferSave, setStockEqualSave } = statusSlice.actions;

@@ -1,11 +1,18 @@
-import { Spin } from "antd";
-import { lazy, Suspense } from "react";
+import { Alert, Spin } from "antd";
+import { Suspense, lazy, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
+import { getCriteria } from "../../store/features/status/status.action";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
 const DashBoard = lazy(() => import("./DashBoard"));
 const OtherIndex = lazy(() => import("./OtherIndex"));
 
 const DashboardIndex = () => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getCriteria());
+  }, []);
   return (
     <Suspense
       fallback={

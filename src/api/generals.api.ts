@@ -36,6 +36,14 @@ class GeneralsApi {
     );
     return response.data;
   }
+
+  async getServiceCriteria(params: {}) {
+    const response = await myAxios.post(
+      baseURL + "general/getservicecriteria",
+      params
+    );
+    return response.data;
+  }
 }
 
 export default new GeneralsApi();
