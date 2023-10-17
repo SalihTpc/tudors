@@ -5,6 +5,8 @@ import playSvg from "../assets/icons/play.svg";
 import stopSvg from "../assets/icons/stop.svg";
 import { StateStatus } from "../lib/generalValues";
 import Action from "./Action";
+import { message } from "antd";
+import { Notification, NotificationType } from "../lib/notification.lib";
 
 const Actions = () => {
   const [selected, setSelected] = useState("");
@@ -13,8 +15,16 @@ const Actions = () => {
   const location = useLocation();
 
   const getServiceStatus = async () => {
-    const res = await generalsApi.getServiceStates();
-    setServiceStatus(res);
+    try {
+      const res = await generalsApi.getServiceStates();
+      setServiceStatus(res);
+      message.success("Stateler güncellendi.");
+    } catch (error: any) {
+      Notification({
+        type: NotificationType.Error,
+        message: error,
+      });
+    }
   };
 
   useEffect(() => {
@@ -26,37 +36,48 @@ const Actions = () => {
   }, [actionCounter]);
   return (
     <div className="flex items-center justify-center my-10 [&>*]:mr-8 font-inter">
-      <Action
-        id={1}
-        state={serviceStatus[0]?.state}
-        icon={serviceStatus[0]?.state ? playSvg : stopSvg}
-        action={`${serviceStatus[0]?.state ? "Running" : "Stopped"}`}
-        process1={"18"}
-        process2={"2"}
-        selected={selected.endsWith("ordertransfer")}
-        toUrl="/dashboard/ordertransfer"
-        setActionCounter={setActionCounter}
-      />
-      {/* <Action
-        title={"Kargo Entegrasyonu"}
-        icon={stopSvg}
-        action={"Stopped"}
-        process1={"84"}
-        process2={"0"}
-        selected={selected.endsWith("orderentegration")}
-        toUrl="/dashboard/orderentegration"
-      /> */}
-      <Action
-        id={2}
-        state={serviceStatus[1]?.state}
-        icon={serviceStatus[1]?.state ? playSvg : stopSvg}
-        action={`${serviceStatus[1]?.state ? "Running" : "Stopped"}`}
-        process1={"145845"}
-        process2={"0"}
-        selected={selected.endsWith("stockequal")}
-        toUrl="/dashboard/stockequal"
-        setActionCounter={setActionCounter}
-      />
+      {serviceStatus.length > 0 ? (
+        <>
+          <Action
+            id={1}
+            state={serviceStatus.filter((item) => item.id == 1)[0].state}
+            icon={
+              serviceStatus.filter((item) => item.id == 1)[0].state
+                ? playSvg
+                : stopSvg
+            }
+            action={`${
+              serviceStatus.filter((item) => item.id == 1)[0].state
+                ? "Running"
+                : "Stopped"
+            }`}
+            process1={"18"}
+            process2={"2"}
+            selected={selected.endsWith("ordertransfer")}
+            toUrl="/dashboard/ordertransfer"
+            setActionCounter={setActionCounter}
+          />
+          <Action
+            id={2}
+            state={serviceStatus.filter((item) => item.id == 2)[0].state}
+            icon={
+              serviceStatus.filter((item) => item.id == 2)[0].state
+                ? playSvg
+                : stopSvg
+            }
+            action={`${
+              serviceStatus.filter((item) => item.id == 2)[0].state
+                ? "Running"
+                : "Stopped"
+            }`}
+            process1={"145845"}
+            process2={"0"}
+            selected={selected.endsWith("stockequal")}
+            toUrl="/dashboard/stockequal"
+            setActionCounter={setActionCounter}
+          />
+        </>
+      ) : null}
     </div>
   );
 };
