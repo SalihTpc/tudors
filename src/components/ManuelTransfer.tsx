@@ -76,7 +76,7 @@ const ManuelTransfer = () => {
     const selectedIds = selectedRows.map((row) => row.id);
     setSelectedSiparisIds(selectedIds);
     setSelectedRowKeys(newSelectedRowKeys);
-    console.log(selectedIds);
+    // console.log(selectedIds);
     // console.log(selectedIds, newSelectedRowKeys);
   };
 
