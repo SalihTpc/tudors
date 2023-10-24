@@ -18,7 +18,7 @@
 
 .ant-tabs .ant-tabs-tab-active {
   color: #2148c0;
-  font-weight: 700;
+  font-weight: 500;
   transition: ease-in-out 0.4s;
   transform: scale(105%);
 }
