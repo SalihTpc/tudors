@@ -29,9 +29,9 @@ const ConditionSelect = ({ options }: Props) => {
       </div>
       {isOpen && (
         <ul className="w-full absolute top-full bg-inherit left-0 mt-1 py-2 rounded">
-          {options.map((option) => (
+          {options.map((option, index) => (
             <li
-              key={option.value}
+              key={index}
               className="px-4 py-2 cursor-pointer hover:bg-[#f3f6f4] text-sm"
               onClick={() => handleOptionSelect(option)}
             >
