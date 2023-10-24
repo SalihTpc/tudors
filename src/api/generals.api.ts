@@ -44,6 +44,13 @@ class GeneralsApi {
     );
     return response.data;
   }
+  async getSiparisFromTicimax(params: {}) {
+    const response = await myAxios.post(
+      baseURL + "general/getsiparisfromticimax",
+      params
+    );
+    return response.data;
+  }
 }
 
 export default new GeneralsApi();
