@@ -26,6 +26,11 @@ const columns: ColumnsType<DataType> = [
     dataIndex: "id",
   },
   {
+    title: "Aktarım Durumu",
+    dataIndex: "state",
+    render: (text) => <p>{text == 1 ? "Aktarıldı" : "Aktarılmadı"}</p>,
+  },
+  {
     title: "Sipariş Kaynağı",
     dataIndex: "siparisKaynagi",
   },
@@ -36,6 +41,7 @@ const columns: ColumnsType<DataType> = [
   {
     title: "Sipariş Tarih-Saati",
     dataIndex: "siparisTarihi",
+    render: (text) => <p>{dayjs(text).format("HH:mm:ss - DD/MM/YYYY")}</p>,
   },
   {
     title: "Toplam Tutar",
@@ -44,12 +50,6 @@ const columns: ColumnsType<DataType> = [
   {
     title: "Sipariş Durumu",
     dataIndex: "siparisDurumu",
-  },
-
-  {
-    title: "Aktarım Durumu",
-    dataIndex: "state",
-    render: (text) => <p>{text == 1 ? "Aktarıldı" : "Aktarılmadı"}</p>,
   },
 ];
 
@@ -87,10 +87,17 @@ const List = () => {
 
   const onFinish = async (values: any) => {
     setLoading(true);
-    values.basTarih = values.tarih[0].$d.toISOString();
-    values.bitTarih = values.tarih[1].$d.toISOString();
-    delete values.tarih;
     // console.log("Success:", values);
+    if (values.tarih) {
+      values.basTarih = values.tarih[0].$d.toISOString();
+      values.bitTarih = values.tarih[1].$d.toISOString();
+      delete values.tarih;
+    } else {
+      delete values.tarih;
+    }
+    !values.state && delete values.state;
+    // console.log(values);
+
     try {
       const response = await generalsApi.getSiparisler(values);
       setData(
@@ -140,16 +147,16 @@ const List = () => {
         </p>
       </div>
       <Form onFinish={onFinish} onFinishFailed={onFinishFailed} form={form}>
-        <div className="flex items-center justify-start mt-8 [&>*]:mr-16 flex-wrap">
+        <div className="flex items-center justify-start mt-3 [&>*]:mr-16 flex-wrap">
           <Form.Item
             name="tarih"
             className="w-[400px] h-[35px] my-3 bg-tudorsGray"
-            rules={[
-              {
-                required: true,
-                message: "Başlangıç ve Bitiş tarihlerini seçin!",
-              },
-            ]}
+            // rules={[
+            //   {
+            //     required: true,
+            //     message: "Başlangıç ve Bitiş tarihlerini seçin!",
+            //   },
+            // ]}
           >
             <DatePicker.RangePicker
               className="w-full h-[35px] text-sm font-inter rounded-none bg-tudorsGray"
@@ -163,7 +170,7 @@ const List = () => {
           <Form.Item
             name="state"
             className="w-[273px] h-[35px] my-3"
-            rules={[{ required: true, message: "Aktarım durumunu seçin!" }]}
+            // rules={[{ required: true, message: "Aktarım durumunu seçin!" }]}
           >
             <Select
               bordered={false}
@@ -185,6 +192,7 @@ const List = () => {
           </Button>
           <Button
             onClick={aktarHandler}
+            disabled={!selectedSiparisIds.length}
             className="w-[227px] h-[40px] text-[14px]/[16.94px] font-medium bg-[#7AC9E3] rounded-md font-inter"
           >
             Seçilenleri Manual Aktar
@@ -203,6 +211,7 @@ const List = () => {
             rowSelection={rowSelection}
             columns={columns}
             dataSource={data}
+            loading={loading}
             className="font-inter mt-8"
           />
         )
