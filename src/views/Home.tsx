@@ -1,8 +1,10 @@
 import { Spin } from "antd";
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useEffect } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Menu from "../components/Menu";
 import Navbar from "../components/Navbar";
+import { useAppDispatch } from "../store/hooks";
+import { getCriteria } from "../store/features/status/status.action";
 
 const DashboardIndex = lazy(() => import("./Dashboard/Index"));
 const SettingsIndex = lazy(() => import("./Settings/Index"));
@@ -10,6 +12,11 @@ const LogsIndex = lazy(() => import("./Logs/Index"));
 const UsersIndex = lazy(() => import("./Users/Index"));
 
 const Home = () => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getCriteria());
+  }, []);
   return (
     <>
       <Navbar />
