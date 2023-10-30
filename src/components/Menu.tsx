@@ -15,7 +15,7 @@ const Menu = () => {
   }, [location.pathname]);
 
   return (
-    <div className="h-[41px] w-full flex items-center justify-center bg-tudorsGray drop-shadow-[0_2px_4px_rgba(0,0,0,0.25)] font-inter">
+    <div className="h-[41px] sticky top-0 z-10 w-full flex items-center justify-center bg-tudorsGray bg-opacity-80 drop-shadow-[0_2px_4px_rgba(0,0,0,0.25)] font-inter">
       <MenuItem
         icon={dashSvg}
         title={"Dashboard"}
