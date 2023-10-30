@@ -33,6 +33,7 @@ const Smtp = () => {
     try {
       await settingsApi.updateSmtpParams(sanitizedValues);
       message.success("Smtp Parametreler güncellendi.");
+      intialAction();
     } catch (error: any) {
       Notification({
         type: NotificationType.Error,

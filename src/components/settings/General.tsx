@@ -22,6 +22,7 @@ const General = () => {
     try {
       await settingsApi.updateGeneralParams(sanitizedValues);
       message.success("Genel Parametreler güncellendi.");
+      intialAction();
     } catch (error: any) {
       Notification({
         type: NotificationType.Error,

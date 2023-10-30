@@ -30,6 +30,7 @@ const Special = () => {
     try {
       await settingsApi.updateSpecialParams(sanitizedValues);
       message.success("Özel Parametreler güncellendi.");
+      intialAction();
     } catch (error: any) {
       Notification({
         type: NotificationType.Error,
