@@ -1,18 +1,42 @@
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, message } from "antd";
 import saveSvg from "../../assets/icons/save.svg";
 import { useEffect } from "react";
 import settingsApi from "../../api/settings.api";
 import { Notification, NotificationType } from "../../lib/notification.lib";
+import { Store } from "antd/lib/form/interface";
 
 const General = () => {
   const [form] = Form.useForm();
 
-  const onFinish = (values: any) => {
-    console.log("Success:", values);
+  const onFinish = async (values: any) => {
+    // console.log("Success:", values);
+    const sanitizedValues = Object.entries(values).reduce(
+      (acc, [key, value]) => {
+        acc[key] = value == (undefined || "") ? null : value;
+        return acc;
+      },
+      {} as Store
+    );
+
+    // console.log(typeof sanitizedValues.nebimKullaniciAdi);
+    try {
+      await settingsApi.updateGeneralParams(sanitizedValues);
+      message.success("Genel Parametreler güncellendi.");
+    } catch (error: any) {
+      Notification({
+        type: NotificationType.Error,
+        message: error,
+      });
+    }
   };
 
   const onFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo);
+    errorInfo.errorFields.forEach((field: any) => {
+      Notification({
+        type: NotificationType.Warning,
+        message: `${field.errors[0]}`,
+      });
+    });
   };
 
   type FieldType = {
@@ -33,12 +57,12 @@ const General = () => {
 
   const intialAction = async () => {
     try {
-      const response: FieldType[] = await settingsApi.generalParams();
+      const response: FieldType[] = await settingsApi.getGeneralParams();
       form.setFieldsValue({
         webServiceAdress: response[0].webServiceAdress,
         wbyetkiKodu: response[0].wbyetkiKodu,
         sqlserverIp: response[0].sqlserverIp,
-        sqlserverPort: response[0].sqlserverUserName,
+        sqlserverPort: response[0].sqlserverPort,
         sqlserverUserName: response[0].sqlserverUserName,
         sqlserverPassword: response[0].sqlserverPassword,
         dbname: response[0].dbname,
