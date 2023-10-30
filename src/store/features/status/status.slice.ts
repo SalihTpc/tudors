@@ -10,6 +10,8 @@ const initialState = {
     time: "",
   },
   error: "",
+  orderSources: [],
+  paymentStatus: [],
 };
 const statusSlice = createSlice({
   name: "status",
@@ -29,6 +31,8 @@ const statusSlice = createSlice({
       state.transferStatus.order = status.transferStatus.siparisDurumu;
       state.transferStatus.time = status.transferStatus.duration;
       state.stockEqual.time = status.stockEqual.startAt;
+      state.orderSources = status.orderSources;
+      state.paymentStatus = status.paymentStatus;
     });
   },
 });
