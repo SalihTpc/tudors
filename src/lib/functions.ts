@@ -11,3 +11,17 @@ export const convertTurkishToEnglish = (str: string): string => {
     .trim(); // baştaki ve sondaki boşlukları kaldır
   return convertedString;
 };
+
+export const removeDuplicates = (strings: string[]): string[] => {
+  const uniqueStrings: string[] = [];
+  const seenStrings: { [key: string]: boolean } = {};
+
+  for (const str of strings) {
+    if (!seenStrings[str]) {
+      uniqueStrings.push(str);
+      seenStrings[str] = true;
+    }
+  }
+
+  return uniqueStrings;
+};
