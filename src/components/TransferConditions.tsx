@@ -2,11 +2,12 @@ import { Button, DatePicker, Form, Select, message } from "antd";
 import dateSvg from "../assets/icons/date.svg";
 import downSvg from "../assets/icons/dropDown.svg";
 import saveSvg from "../assets/icons/save.svg";
-import { option, orderStatus } from "../lib/generalValues";
+import { TransferStatus, option, orderStatus } from "../lib/generalValues";
 import { Notification, NotificationType } from "../lib/notification.lib";
-import { useAppDispatch } from "../store/hooks";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { setOrderTransferSave } from "../store/features/status/status.slice";
 import generalsApi from "../api/generals.api";
+import { useEffect } from "react";
 
 const TransferConditions = () => {
   const [form] = Form.useForm();
@@ -49,6 +50,16 @@ const TransferConditions = () => {
       });
     });
   };
+  const transferStatus: TransferStatus = useAppSelector(
+    (state) => state.status.transferStatus
+  );
+
+  useEffect(() => {
+    form.setFieldsValue({
+      orderStatus: transferStatus.order,
+      orderTimeStatus: transferStatus.time,
+    });
+  }, []);
 
   return (
     <div className="">

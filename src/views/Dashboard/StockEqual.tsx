@@ -1,14 +1,16 @@
 import { Button, DatePicker, Form, Table, message } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import checkSvg from "../../assets/icons/check.svg";
 import dateSvg from "../../assets/icons/date.svg";
 import downSvg from "../../assets/icons/dropDown.svg";
 import saveSvg from "../../assets/icons/save.svg";
 import { setStockEqualSave } from "../../store/features/status/status.slice";
-import { useAppDispatch } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { Notification, NotificationType } from "../../lib/notification.lib";
 import generalsApi from "../../api/generals.api";
+import { StockEqualStatus } from "../../lib/generalValues";
+import dayjs from "dayjs";
 
 interface DataType {
   key: React.Key;
@@ -114,6 +116,15 @@ const StockEqual = () => {
     });
   };
 
+  const stockEqualStatus: StockEqualStatus = useAppSelector(
+    (state) => state.status.stockEqual
+  );
+
+  useEffect(() => {
+    form.setFieldsValue({
+      orderStatus: dayjs(stockEqualStatus?.time),
+    });
+  }, []);
   return (
     <Form form={form} onFinish={onFinish} onFinishFailed={onFinishFailed}>
       <div className="mt-8 [&>*]:mr-16 my-4 [&>*]:mb-6">

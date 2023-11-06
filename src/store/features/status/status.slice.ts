@@ -13,6 +13,7 @@ const initialState = {
   orderSources: [],
   paymentStatus: [],
 };
+
 const statusSlice = createSlice({
   name: "status",
   initialState,
@@ -28,9 +29,9 @@ const statusSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getCriteria.fulfilled, (state, action) => {
       const { status } = action.payload;
-      state.transferStatus.order = status.transferStatus.siparisDurumu;
-      state.transferStatus.time = status.transferStatus.duration;
-      state.stockEqual.time = status.stockEqual.startAt;
+      state.transferStatus.order = status.transferStatus[0].siparisDurumu;
+      state.transferStatus.time = status.transferStatus[0].duration;
+      state.stockEqual.time = status.stockEqual[0].startAt;
       state.orderSources = status.orderSources;
       state.paymentStatus = status.paymentStatus;
     });

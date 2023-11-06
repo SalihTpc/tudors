@@ -111,7 +111,7 @@ const Action = ({
           <img className="w-5 h-5 p-1 pl-0" src={icon} alt={icon} />
           <p className="text-[10px]/[12.1px]">{action}</p>
         </Button>
-        <p className="text-xs">
+        <p className="text-xs hidden">
           {process1} / <span className="text-[#ED0909]">{process2}</span>
         </p>
       </div>
