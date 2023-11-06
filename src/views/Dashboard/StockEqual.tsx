@@ -124,7 +124,7 @@ const StockEqual = () => {
     form.setFieldsValue({
       orderStatus: dayjs(stockEqualStatus?.time),
     });
-  }, []);
+  }, [stockEqualStatus?.time]);
   return (
     <Form form={form} onFinish={onFinish} onFinishFailed={onFinishFailed}>
       <div className="mt-8 [&>*]:mr-16 my-4 [&>*]:mb-6">

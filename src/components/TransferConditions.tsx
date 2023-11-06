@@ -55,11 +55,15 @@ const TransferConditions = () => {
   );
 
   useEffect(() => {
-    form.setFieldsValue({
-      orderStatus: transferStatus.order,
-      orderTimeStatus: transferStatus.time,
-    });
-  }, []);
+    transferStatus.order > 0
+      ? form.setFieldsValue({
+          orderStatus: transferStatus.order,
+          orderTimeStatus: transferStatus.time,
+        })
+      : form.setFieldsValue({
+          orderTimeStatus: transferStatus.time,
+        });
+  }, [transferStatus]);
 
   return (
     <div className="">
