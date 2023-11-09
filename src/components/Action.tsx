@@ -73,7 +73,7 @@ const Action = ({
           message.success("Sipariş Aktarımı başlatıldı.");
         } else {
           await productApi.startProductJob({
-            duration: 24,
+            duration: stockEqualStatus.duration,
             startAt: stockEqualStatus.time,
           });
           message.success("Stok - Fiyat Eşitleme başlatıldı.");
