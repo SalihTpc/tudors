@@ -18,6 +18,7 @@ export interface TransferStatus {
 
 export interface StockEqualStatus {
   time: string;
+  duration: number;
 }
 
 export const orderStatus: option[] = [

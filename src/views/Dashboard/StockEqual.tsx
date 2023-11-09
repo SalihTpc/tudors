@@ -1,4 +1,4 @@
-import { Button, DatePicker, Form, Table, message } from "antd";
+import { Button, DatePicker, Form, Select, Table, message } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { useEffect, useState } from "react";
 import checkSvg from "../../assets/icons/check.svg";
@@ -9,7 +9,7 @@ import { setStockEqualSave } from "../../store/features/status/status.slice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { Notification, NotificationType } from "../../lib/notification.lib";
 import generalsApi from "../../api/generals.api";
-import { StockEqualStatus } from "../../lib/generalValues";
+import { StockEqualStatus, option } from "../../lib/generalValues";
 import dayjs from "dayjs";
 
 interface DataType {
@@ -47,6 +47,13 @@ const columns: ColumnsType<DataType> = [
     title: "İndirimli Satış Fiyatı",
     dataIndex: "indirimliFiyat",
   },
+];
+
+const timeOptions: option[] = [
+  { label: "6 sa", value: 6 },
+  { label: "12 sa", value: 12 },
+  { label: "18 sa", value: 18 },
+  { label: "24 sa", value: 24 },
 ];
 
 const StockEqual = () => {
@@ -96,9 +103,9 @@ const StockEqual = () => {
       await generalsApi.saveServiceCriteria({
         serviceId: 2,
         startAt: values.orderStatus.$d.toISOString(),
+        duration: values.duration,
       });
       message.success("Stok - Fiyat kriterleri eklendi.");
-      form.resetFields();
     } catch (error: any) {
       Notification({
         type: NotificationType.Error,
@@ -123,36 +130,54 @@ const StockEqual = () => {
   useEffect(() => {
     form.setFieldsValue({
       orderStatus: dayjs(stockEqualStatus?.time),
+      duration: stockEqualStatus.duration,
     });
   }, [stockEqualStatus?.time]);
   return (
     <Form form={form} onFinish={onFinish} onFinishFailed={onFinishFailed}>
       <div className="mt-8 [&>*]:mr-16 my-4 [&>*]:mb-6">
-        <Form.Item
-          name="orderStatus"
-          className="w-[273px] h-[35px] mx-0 my-3 bg-tudorsGray text-black"
-        >
-          <DatePicker
-            style={{ color: "rgba(0, 0, 0, 1)" }}
-            className="w-full"
-            bordered={false}
-            format="DD-MM-YYYY HH:mm"
-            showTime
-            placeholder="Tarih - Saat"
-            suffixIcon={<img src={downSvg} />}
-          />
-        </Form.Item>
-        <p className="text-xs font-inter my-3">
+        <div className="flex items-center justify-start mt-8 [&>*]:mr-16 flex-wrap">
+          <Form.Item
+            name="orderStatus"
+            className="w-[273px] h-[35px] mx-0 my-3 bg-tudorsGray text-black"
+          >
+            <DatePicker
+              style={{ color: "rgba(0, 0, 0, 1)" }}
+              className="w-full"
+              bordered={false}
+              format="DD-MM-YYYY HH:mm"
+              showTime
+              placeholder="Tarih - Saat"
+              suffixIcon={<img src={downSvg} />}
+            />
+          </Form.Item>
+          <Form.Item
+            name="duration"
+            className="w-[273px] h-[35px] mx-0 my-3 bg-tudorsGray text-black"
+            rules={[{ required: true, message: "Lüften saat seçin" }]}
+          >
+            <Select
+              bordered={false}
+              allowClear
+              className="w-[273px] h-[35px] text-sm font-inter rounded-none bg-tudorsGray"
+              suffixIcon={<img src={downSvg} />}
+              options={timeOptions}
+              dropdownStyle={{ backgroundColor: "#F0F0F0" }}
+              placeholder="Zaman Seçin"
+            />
+          </Form.Item>
+        </div>
+        <p className="text-xs font-inter my-3 hidden">
           Son işlem tamamlama tarih saati : 19.07.2023 / 04:16
         </p>
-        <div className="mt-10 font-inter">
+        <div className="mt-10 font-inter hidden">
           <h4 className="text-sm">
             Aşağıdaki tarih ve saatte sipariş aktarımını otomatik durdur.
           </h4>
         </div>
         <Form.Item
           name="stopTime"
-          className="w-[273px] h-[35px] mx-0 my-3 font-inter bg-tudorsGray text-black"
+          className="w-[273px] h-[35px] mx-0 my-3 font-inter bg-tudorsGray text-black hidden"
         >
           <DatePicker
             style={{
@@ -166,14 +191,14 @@ const StockEqual = () => {
             suffixIcon={<img src={dateSvg} />}
           />
         </Form.Item>
-        <div className="flex items-center justify-start">
+        <div className="items-center justify-start hidden">
           <img src={checkSvg} alt={checkSvg} />
           <p className="font-inter text-xs">
             Stok ve Fiyat eşitleme sırasında, henüz nebime akmayan siparişlerin
             ürünlerini,ticimax’e - olarak bas
           </p>
         </div>
-        <div className="flex items-center justify-start -mt-6">
+        <div className="hidden items-center justify-start -mt-6">
           <img src={checkSvg} alt={checkSvg} />
           <p className="font-inter text-xs">
             Servisten gelmeyen ürünlerin envanterini ticimax’de sıfırla ve
@@ -188,7 +213,7 @@ const StockEqual = () => {
           <img src={saveSvg} alt="save" />
           <p className="font-medium text-base font-inter">Kaydet</p>
         </Button>
-        <div className="mt-5 font-inter">
+        <div className="mt-5 font-inter hidden">
           <button className="w-[227px] h-[40px] text-[14px]/[16.94px] font-medium bg-[#7AE3D0] rounded-md mr-4">
             Listele
           </button>
@@ -196,12 +221,11 @@ const StockEqual = () => {
             Seçilenleri Manual Aktar
           </button>
         </div>
-
         <Table
           rowSelection={rowSelection}
           columns={columns}
           dataSource={myData}
-          className="font-inter"
+          className="font-inter hidden"
         />
       </div>
     </Form>

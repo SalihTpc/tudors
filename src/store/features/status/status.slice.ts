@@ -7,6 +7,7 @@ const initialState = {
     time: 0,
   },
   stockEqual: {
+    duration: 0,
     time: "",
   },
   error: "",
@@ -32,6 +33,7 @@ const statusSlice = createSlice({
       state.transferStatus.order = status.transferStatus[0].siparisDurumu;
       state.transferStatus.time = status.transferStatus[0].duration;
       state.stockEqual.time = status.stockEqual[0].startAt;
+      state.stockEqual.duration = status.stockEqual[0].duration;
       state.orderSources = status.orderSources;
       state.paymentStatus = status.paymentStatus;
     });

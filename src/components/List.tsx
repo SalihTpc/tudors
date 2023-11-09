@@ -140,7 +140,7 @@ const List = () => {
 
   return (
     <>
-      <div className="flex items-center justify-start mt-6">
+      <div className="hidden items-center justify-start mt-6">
         <img src={checkSvg} alt={checkSvg} />
         <p className="text-[12px]/[15.6px] font-inter">
           Aktarılmış siparişler listelensin mi? ( Son 7 güne aitler listelenir )

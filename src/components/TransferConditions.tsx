@@ -92,14 +92,14 @@ const TransferConditions = () => {
             />
           </Form.Item>
         </div>
-        <div className="mt-10 font-inter">
+        <div className="mt-10 font-inter hidden">
           <h4 className="text-sm">
             Aşağıdaki tarih ve saatte sipariş aktarımını otomatik durdur.
           </h4>
         </div>
         <Form.Item
           name="stopTime"
-          className="w-[273px] h-[35px] mx-0 my-3 font-inter bg-tudorsGray text-black"
+          className="w-[273px] h-[35px] mx-0 my-3 font-inter bg-tudorsGray text-black hidden"
         >
           <DatePicker
             style={{
