@@ -54,6 +54,7 @@ const Action = ({
       } else {
         try {
           await productApi.stopProductJob();
+          setActionCounter((state: number) => state + 1);
           message.success("Stok - Fiyat Eşitleme durduruldu");
         } catch (error: any) {
           Notification({
