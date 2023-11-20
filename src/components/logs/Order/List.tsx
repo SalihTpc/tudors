@@ -1,13 +1,14 @@
 import type { TimeRangePickerProps } from "antd";
-import { Button, DatePicker, Form, Select, Spin, Table, message } from "antd";
+import { Button, DatePicker, Form, Select, Table, message } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import dayjs from "dayjs";
 import { useState } from "react";
-import generalsApi from "../api/generals.api";
-import checkSvg from "../assets/icons/check.svg";
-import downSvg from "../assets/icons/dropDown.svg";
-import { aktarimStatus } from "../lib/generalValues";
-import { Notification, NotificationType } from "../lib/notification.lib";
+import generalsApi from "../../../api/generals.api";
+import checkSvg from "../../../assets/icons/check.svg";
+import downSvg from "../../../assets/icons/dropDown.svg";
+import { localeDateTime } from "../../../lib/functions";
+import { aktarimStatus } from "../../../lib/generalValues";
+import { Notification, NotificationType } from "../../../lib/notification.lib";
 
 interface DataType {
   key: React.Key;
@@ -41,7 +42,7 @@ const columns: ColumnsType<DataType> = [
   {
     title: "Sipariş Tarih-Saati",
     dataIndex: "siparisTarihi",
-    render: (text) => <p>{dayjs(text).format("HH:mm:ss - DD/MM/YYYY")}</p>,
+    render: (text) => <p>{dayjs(text).format("DD/MM/YYYY - HH:mm:ss")}</p>,
   },
   {
     title: "Toplam Tutar",
@@ -89,16 +90,17 @@ const List = () => {
     setLoading(true);
     // console.log("Success:", values);
     if (values.tarih) {
-      values.basTarih = values.tarih[0].$d.toISOString();
-      values.bitTarih = values.tarih[1].$d.toISOString();
+      values.basTarih = values.tarih[0].$d.toISOString().slice(0, -1);
+      values.bitTarih = localeDateTime(values.tarih[1].$d);
       delete values.tarih;
     } else {
       delete values.tarih;
+      values.basTarih = null;
+      values.bitTarih = null;
     }
     !values.state && delete values.state;
-    // console.log(values);
-
     try {
+      console.log(values);
       const response = await generalsApi.getSiparisler(values);
       setData(
         response.map((data: any) => ({
@@ -113,7 +115,7 @@ const List = () => {
         message: error,
       });
     }
-    form.resetFields();
+
     setLoading(false);
   };
 
@@ -147,7 +149,7 @@ const List = () => {
         </p>
       </div>
       <Form onFinish={onFinish} onFinishFailed={onFinishFailed} form={form}>
-        <div className="flex items-center justify-start mt-3 [&>*]:mr-16 flex-wrap">
+        <div className="flex items-center justify-start [&>*]:mr-16 flex-wrap">
           <Form.Item
             name="tarih"
             className="w-[400px] h-[35px] my-3 bg-tudorsGray"
@@ -199,23 +201,14 @@ const List = () => {
           </Button>
         </div>
       </Form>
-      {data.length > 0 ? (
-        loading ? (
-          <div className="flex items-center justify-center min-w-screen min-h-screen">
-            <Spin tip="Loading..." size="large">
-              <div className="p-12 bg-gray-300 rounded-lg" />
-            </Spin>
-          </div>
-        ) : (
-          <Table
-            rowSelection={rowSelection}
-            columns={columns}
-            dataSource={data}
-            loading={loading}
-            className="font-inter mt-8"
-          />
-        )
-      ) : null}
+      <Table
+        locale={{ emptyText: "Data yok" }}
+        rowSelection={rowSelection}
+        columns={columns}
+        dataSource={data}
+        loading={loading}
+        className="font-inter mt-8"
+      />
     </>
   );
 };
