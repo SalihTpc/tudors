@@ -1,8 +1,8 @@
-import { DatePicker, Form, Select } from "antd";
-import Actions from "../../components/Actions";
-import dayjs from "dayjs";
-import downSvg from "../../assets/icons/dropDown.svg";
+// import { DatePicker, Form, Select } from "antd";
+// import dayjs from "dayjs";
+// import downSvg from "../../assets/icons/dropDown.svg";
 import { option } from "../../lib/generalValues";
+import LogTabs from "../../components/logs/LogTabs";
 
 export const options: option[] = [
   { label: "Seçenek 1", value: 1 },
@@ -12,12 +12,12 @@ export const options: option[] = [
 const Logs = () => {
   return (
     <>
-      <Actions />
       <div className="my-2">
         <h2 className="text-xl mb-3">Loglar</h2>
         <hr className="border border-solid border-black" />
       </div>
-      <Form>
+      <LogTabs />
+      {/* <Form>
         <div className="flex items-center justify-start mt-8 [&>*]:mr-16 my-4 mx-48 flex-wrap [&>*]:mb-4 font-inter">
           <Form.Item
             name="orderStatus"
@@ -63,7 +63,7 @@ const Logs = () => {
             Barcde
           </button>
         </div>
-      </Form>
+      </Form> */}
     </>
   );
 };
