@@ -1,10 +1,16 @@
 import { Spin } from "antd";
 import { Suspense, lazy, useEffect } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
+import generalsApi from "../api/generals.api";
+import productApi from "../api/product.api";
 import Menu from "../components/Menu";
 import Navbar from "../components/Navbar";
-import { useAppDispatch } from "../store/hooks";
 import { getCriteria } from "../store/features/status/status.action";
+import {
+  setOrderLastTime,
+  setStockLastTime,
+} from "../store/features/status/status.slice";
+import { useAppDispatch } from "../store/hooks";
 
 const DashboardIndex = lazy(() => import("./Dashboard/Index"));
 const SettingsIndex = lazy(() => import("./Settings/Index"));
@@ -14,8 +20,18 @@ const UsersIndex = lazy(() => import("./Users/Index"));
 const Home = () => {
   const dispatch = useAppDispatch();
 
+  const initialAction = async () => {
+    try {
+      const orderLastRes = await generalsApi.getSiparisLastExecuteTime();
+      const stockLastRes = await productApi.getStockLastExecuteTime();
+      dispatch(setOrderLastTime(orderLastRes));
+      dispatch(setStockLastTime(stockLastRes));
+      dispatch(getCriteria());
+    } catch (error) {}
+  };
+
   useEffect(() => {
-    dispatch(getCriteria());
+    initialAction();
   }, []);
   return (
     <>
