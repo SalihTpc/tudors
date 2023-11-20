@@ -1,11 +1,11 @@
+import ManuelTransfer from "../../components/ManuelTransfer";
 import TransferConditions from "../../components/TransferConditions";
-import TransferTabs from "../../components/TransferTabs";
 
 const OrderTransfer = () => {
   return (
     <>
       <TransferConditions />
-      <TransferTabs />
+      <ManuelTransfer />
     </>
   );
 };
