@@ -25,3 +25,9 @@ export const removeDuplicates = (strings: string[]): string[] => {
 
   return uniqueStrings;
 };
+
+export const localeDateTime = (value: Date) => {
+  const date2 = value;
+  const offset2 = date2.getTimezoneOffset();
+  return new Date(date2.getTime() - offset2 * 60000).toISOString().slice(0, -1);
+};
