@@ -51,6 +51,17 @@ class GeneralsApi {
     );
     return response.data;
   }
+  async getSiparisLastExecuteTime() {
+    const response = await myAxios.post(
+      baseURL + "general/getsiparislastexecutetime",
+      {}
+    );
+    return response.data;
+  }
+  async getServiceLog(params: {}) {
+    const response = await myAxios.post(baseURL + "general/servicelog", params);
+    return response.data;
+  }
 }
 
 export default new GeneralsApi();
