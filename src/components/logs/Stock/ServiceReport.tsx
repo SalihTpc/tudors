@@ -27,8 +27,7 @@ const ServiceReport = () => {
 
   type FieldType = {
     startDate?: string;
-    logType?: number;
-    recordCount?: number;
+    state?: number;
   };
 
   const stateOptions: option[] = [
