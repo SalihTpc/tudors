@@ -10,6 +10,8 @@ const initialState = {
     duration: 0,
     time: "",
   },
+  orderLastExecuteTime: "",
+  stockLastExecuteTime: "",
   error: "",
   orderSources: [],
   paymentStatus: [],
@@ -26,6 +28,12 @@ const statusSlice = createSlice({
     setStockEqualSave: (state, action) => {
       state.stockEqual.time = action.payload;
     },
+    setOrderLastTime: (state, action) => {
+      state.orderLastExecuteTime = action.payload;
+    },
+    setStockLastTime: (state, action) => {
+      state.stockLastExecuteTime = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getCriteria.fulfilled, (state, action) => {
@@ -40,6 +48,11 @@ const statusSlice = createSlice({
   },
 });
 
-export const { setOrderTransferSave, setStockEqualSave } = statusSlice.actions;
+export const {
+  setOrderTransferSave,
+  setStockEqualSave,
+  setOrderLastTime,
+  setStockLastTime,
+} = statusSlice.actions;
 
 export default statusSlice.reducer;
