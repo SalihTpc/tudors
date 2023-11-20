@@ -68,7 +68,7 @@ const TransferConditions = () => {
   return (
     <div className="">
       <Form onFinish={onFinish} onFinishFailed={onFinishFailed} form={form}>
-        <div className="flex items-center justify-start mt-8 [&>*]:mr-16 flex-wrap">
+        <div className="flex items-center justify-start mt-3 [&>*]:mr-16 flex-wrap">
           <Form.Item name="orderStatus" className="w-[273px] h-[35px] my-3">
             <Select
               bordered={false}
@@ -114,7 +114,7 @@ const TransferConditions = () => {
           />
         </Form.Item>
         <Button
-          className="w-fit h-fit mb-3 mt-6 flex items-center justify-center"
+          className="w-fit h-fit mb-3 flex items-center justify-center"
           type="text"
           htmlType="submit"
         >
@@ -122,6 +122,7 @@ const TransferConditions = () => {
           <p className="font-medium text-base font-inter">Kaydet</p>
         </Button>
       </Form>
+      <hr className="mb-3" />
     </div>
   );
 };
