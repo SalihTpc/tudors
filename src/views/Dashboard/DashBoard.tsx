@@ -6,16 +6,16 @@ const DashBoard = () => {
   return (
     <div>
       <div className="flex items-center justify-center w-full my-10 [&>*]:mr-4">
-        <Services responseTime={15} service="Ticimax Performans" />
-        <Services responseTime={9} service="Kargoist Performans" />
-        <Services responseTime={5} service="Nebim Performans" />
+        <Services responseTime={0} service="Ticimax Performans" />
+        <Services responseTime={0} service="Kargoist Performans" />
+        <Services responseTime={0} service="Nebim Performans" />
       </div>
       <div className="my-10">
         <div className="flex items-center justify-center w-full  [&>*]:mr-4">
-          <Compare store="Nebim Envanteri" storeNumber={158445} />
-          <Compare store="Ticimax Envanteri" storeNumber={158445} />
+          <Compare store="Nebim Envanteri" storeNumber={0} />
+          <Compare store="Ticimax Envanteri" storeNumber={0} />
         </div>
-        <p className="font-inter text-[12px]/[14.52px] text-center mt-2">
+        <p className="font-inter text-[12px]/[14.52px] text-center mt-2 hidden">
           Son kontrol 19.07.2023 / 05:00
         </p>
       </div>
