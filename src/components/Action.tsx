@@ -1,11 +1,17 @@
+import { RetweetOutlined } from "@ant-design/icons";
 import { Button, message } from "antd";
+import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 import generalsApi from "../api/generals.api";
 import productApi from "../api/product.api";
 import settingsSvg from "../assets/icons/settings.svg";
 import { StockEqualStatus, TransferStatus } from "../lib/generalValues";
-import { useAppSelector } from "../store/hooks";
 import { Notification, NotificationType } from "../lib/notification.lib";
+import {
+  setOrderLastTime,
+  setStockLastTime,
+} from "../store/features/status/status.slice";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 
 type Props = {
   id: number;
@@ -37,6 +43,16 @@ const Action = ({
   const stockEqualStatus: StockEqualStatus = useAppSelector(
     (state) => state.status.stockEqual
   );
+
+  const orderLastTime = useAppSelector(
+    (state) => state.status.orderLastExecuteTime
+  );
+
+  const stockLastTime = useAppSelector(
+    (state) => state.status.stockLastExecuteTime
+  );
+
+  const dispatch = useAppDispatch();
 
   const play = async () => {
     if (state) {
@@ -89,6 +105,30 @@ const Action = ({
     }
   };
 
+  const refresh = async () => {
+    if (id == 1) {
+      try {
+        const orderRes = await generalsApi.getSiparisLastExecuteTime();
+        dispatch(setOrderLastTime(orderRes));
+      } catch (error: any) {
+        Notification({
+          type: NotificationType.Error,
+          message: error,
+        });
+      }
+    } else {
+      try {
+        const stockRes = await productApi.getStockLastExecuteTime();
+        dispatch(setStockLastTime(stockRes));
+      } catch (error: any) {
+        Notification({
+          type: NotificationType.Error,
+          message: error,
+        });
+      }
+    }
+  };
+
   return (
     <div className="bg-tudorsGray pt-3 px-3 pb-1 flex flex-col w-[273px] h-[91px] rounded-lg justify-between font-inter">
       <Link to={toUrl} className="flex items-center justify-between">
@@ -106,12 +146,30 @@ const Action = ({
       <div className="flex items-center justify-between">
         <Button
           type="text"
-          className="flex justify-center items-center font-inter ml-0 pl-0"
+          className="flex justify-center items-center font-inter ml-0 pl-2"
           onClick={play}
         >
           <img className="w-5 h-5 p-1 pl-0" src={icon} alt={icon} />
           <p className="text-[10px]/[12.1px]">{action}</p>
         </Button>
+        <div className="flex items-center gap-1">
+          <Button
+            shape="circle"
+            size="small"
+            className="p-0 m-0 flex items-center justify-center"
+            onClick={refresh}
+          >
+            <RetweetOutlined />
+          </Button>
+          <div>
+            <p className="text-[10px]/[12.1px]">Son Çalışma zamanı</p>
+            <p className="text-[10px]/[12.1px]">
+              {id == 1
+                ? dayjs(orderLastTime).format("DD/MM/YYYY - HH:mm:ss")
+                : dayjs(stockLastTime).format("DD/MM/YYYY - HH:mm:ss")}
+            </p>
+          </div>
+        </div>
         <p className="text-xs hidden">
           {process1} / <span className="text-[#ED0909]">{process2}</span>
         </p>

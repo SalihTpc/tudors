@@ -4,9 +4,8 @@ import generalsApi from "../api/generals.api";
 import playSvg from "../assets/icons/play.svg";
 import stopSvg from "../assets/icons/stop.svg";
 import { StateStatus } from "../lib/generalValues";
-import Action from "./Action";
-import { message } from "antd";
 import { Notification, NotificationType } from "../lib/notification.lib";
+import Action from "./Action";
 
 const Actions = () => {
   const [selected, setSelected] = useState("");
@@ -18,7 +17,7 @@ const Actions = () => {
     try {
       const res = await generalsApi.getServiceStates();
       setServiceStatus(res);
-      message.success("Stateler güncellendi.");
+      // message.success("Stateler güncellendi.");
     } catch (error: any) {
       Notification({
         type: NotificationType.Error,
